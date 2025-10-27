@@ -1,4 +1,5 @@
-FROM rstudio/plumber # Or a suitable base R image like rocker/r-base
+# A suitable specialized image like rstudio/plumber or a base R image like rocker/r-base
+FROM rstudio/plumber
 
 # Install R packages
 RUN R -e "install.packages(c('dplyr', 'plumber'))"
