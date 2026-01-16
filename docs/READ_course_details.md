@@ -61,7 +61,7 @@ Additionally, this course includes critical thinking and reviews of **AI applica
 
 ---
 
-![](prep/icons.png)
+![](images/icons.png)
 
 ---
 

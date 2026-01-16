@@ -18,9 +18,9 @@ Together in small teams, students will complete several homework assignments dur
 
 | Type | Learning Activity | Percent | Description |
 |------|-------------------|---------|-------------|
-| `HOMEWORK` | **Coding Labs** | 30% | **3 Homework Assignments due, 1 every 3 weeks**. For each Homework, participants must compile, refine, and submit the results of their weekly coding lab activities for the last 3 weeks. Homeworks due 11:59 PM pm on each specified due date, 1 week after made available. Please turn in your homework electronically via Canvas. It is the students' responsibility to keep copies of submitted homework. |
+| `HOMEWORK` | **Coding Labs** | 30% | **3 Homework Assignments due, 1 every 3~4 weeks**. For each Homework, participants must compile, refine, and submit the results of their weekly coding lab activities for the last 3 weeks. Homeworks due 11:59 PM pm on each specified due date, 1 week after made available. Please turn in your homework electronically via Canvas. It is the students' responsibility to keep copies of submitted homework. |
 | `ACTIVITIES` | **Activities** | 30% | Systematically measures students' engagement in class using routine learning check questions, surveys, small coding questions, etc. Graded on completion (done or not). **Lowest Grade Dropped for 5 activities per term.** |
-| `MIDTERM EXERCISE` | **Hackathon** | 10% | Participation in a **24-hour team Hackathon experience**, date TBD. If participant is unable to attend Hackathon, participant may complete an <u>alternate coding challenge online.</u> |
+| `MIDTERM EXERCISE` | **Hackathon** | 10% | Participation in a **24-hour team Hackathon experience**, date **FRIDAY, MARCH 6, 3:30 PM - SATURDAY, MARCH 7, 3:30 PM**. If participant is unable to attend Hackathon, participant may complete an <u>alternate coding challenge online.</u> |
 | `TOOL` | **App V1** | 10% | Teams will build a working AI-powered data analytics application, including building LLM queries, APIs, a front-end App. |
 | `TOOL` | **App V2** | 10% | Teams will refine their application, adding Retrieval Augmented Generation, Agentic Orchestration, and Tool Calling. |
 | `TOOL` | **App V3** / Presentation | 10% | Teams will present their application in a live product demonstration session, to be scheduled in the last week of classes and the study period. Attendance is Mandatory. Distance Learning students may submit a video presenting their poster instead. Details to be announced. |
@@ -45,7 +45,7 @@ Letter grades will be based on the weighted average specified above and assigned
 
 ---
 
-![](prep/icons.png)
+![](images/icons.png)
 
 ---
 

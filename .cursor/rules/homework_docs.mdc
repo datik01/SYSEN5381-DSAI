@@ -24,14 +24,14 @@ alwaysApply: false
 
 ### Required Footer Format
 ```markdown
-![](../../docs/prep/icons.png)
+![](../../docs/images/homework.png)
 
 ---
 
 ← 🏠 [Back to Top](#HOMEWORK)
 ```
 
-**Note**: The footer image path should be adjusted based on file location. Use relative path to `docs/prep/icons.png`.
+**Note**: The footer image path should be adjusted based on file location. Use relative path to `docs/images/homework.png`.
 
 ---
 

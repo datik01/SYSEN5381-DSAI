@@ -123,7 +123,7 @@ Find more at this helpful Github repository: [public-apis/public-apis](https://g
 
 ---
 
-![](../../docs/prep/icons.png)
+![](../../docs/images/icons.png)
 
 ---
 

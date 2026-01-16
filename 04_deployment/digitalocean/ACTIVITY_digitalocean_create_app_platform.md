@@ -53,7 +53,7 @@ In this task, you will deploy a live app with **DigitalOcean's App Platform**!
 
 ---
 
-![](../../docs/prep/icons.png)
+![](../../docs/images/icons.png)
 
 ---
 

@@ -27,6 +27,10 @@ Participants will be required to use the following software regularly.
     - **Cost**: $10 dollars for 2 apps, at $5 dollars per app. 
     - **Requirement**: Must have a valid US credit card OR **Google Pay** OR **PayPal** OR **Alibaba Pay**.
 
+- **OpenAI (~$10)**: Partway through term, you will practice making AI queries online using the OpenAI API. You will need to pay a small fee directly to OpenAI in order to complete a few activities. You may also choose to continue to use OpenAI (cloud AI) in subsequent assignments, rather than Ollama (local AI), if you wish.
+    - **Cost**: $5~10 dollars tops. Scales depending on number of queries. Queries cost less than $0.01 USD. 
+    - **Requirement**: Must have a valid US credit card OR **Google Pay** OR **PayPal** OR **Alibaba Pay**.
+
 
 ---
 
@@ -53,7 +57,7 @@ You may use **Python**, **R**, or another language/framework of your choosing. L
 
 ---
 
-![](prep/icons.png)
+![](images/icons.png)
 
 ---
 

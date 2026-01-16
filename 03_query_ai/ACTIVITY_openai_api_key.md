@@ -51,7 +51,7 @@ OPENAI_API_KEY=your_api_key_here
 
 ---
 
-![](../../docs/prep/icons.png)
+![](../../docs/images/icons.png)
 
 ---
 

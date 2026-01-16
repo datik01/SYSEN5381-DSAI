@@ -127,7 +127,7 @@ print(response.json())
 
 ---
 
-![](../docs/prep/icons.png)
+![](../docs/images/icons.png)
 
 ---
 

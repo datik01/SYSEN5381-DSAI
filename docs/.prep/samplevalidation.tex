@@ -1,0 +1,84 @@
+\subsection*{Quality Checking}
+
+To check that quality of our AI-generated report text, we performed a series of experiments, employing human and AI-assisted qualitative content analysis. We supplied the AI model with a table of emissions data, which broke down emissions for 1 pollutant in 1 specific year for 1 US county by vehicle type. Then, we asked the AI to create an informed interpretation of the data set. The prototype prompt syntax used matches our final prompt closely, and is available in \textbf{Appendix \ref{sec:qcnotes}}. Finally, 1 of 4 human researchers was randomly assigned to review the AI-generated text. We gave each response a grade of (\texttt{\textbf{TRUE}} or \texttt{\textbf{FALSE}}). 
+
+Additionally, the AI was also instructed to also output a grade for itself to determine whether the response was accurate, given the user-provided data. This was to determine whether an AI can effectively rate its own quality. To achieve this, a verification prompt was provided to the AI with the following syntax:
+
+\begin{quote}
+\label{quote:verify}
+\texttt{Verify that no part of the paragraph misinterprets the data supplied.}
+\\
+\texttt{Return \textbf{TRUE} if no misinterpretation.}
+\\
+\texttt{\textbf{FALSE} if any problems + modified response for ChatGPT’s original interpretation + the data set.}
+\end{quote}
+
+Out of $N = 500$ samples of AI-generated data summaries for a Donut plot of CO2e emissions in Tompkins County, NY in 2020, our human benchmarking exercise detected an accuracy rate of 96.2\%, with numerical or content inaccuracies in just 3.8\% of sample, compared to a 98\% success rate by the AI (model GPT 3.5-turbo). The errors were only simple numerical errors; for example, in one case,the emissions inventory of Heavy Trucks in Tompkins County was misreported as 32.6 kt rather than 30.6 kt, although its percentage 8.4\% was reported accurately. We expect this will improve with time. The AI performs functionally as good as humans at quality checking, with just a 2\% difference (z = 4.07, p < 0.001). Consequently, we employed the AI to perform quality checks in a larger experiment, using a more recent, advanced version of GPT (model GPT 4o).
+
+We generated a randomized sample of 147 reports consisting of 1470 total sections of AI-generated text. Reports were made for a stratified sample of 4 counties per state, where able, each for a random year and pollutant. For each report, we 2 randomly selected metrics and aggregation levels for each of our 5 chart types.
+
+Then, for each content section, we employed the AI to rate that section's text in terms of 7 measures. First, we evaluated whether the text was \textbf{accurate} or not (\texttt{TRUE} or \texttt{FALSE}). Then, we employed a series of 5-point Likert scales, asking the AI to evaluate the reports on 6 ordinal criteria, listed in \textbf{Figure \ref{fig:fig_bars_graph}}, in the style of AI-supported qualitative content analysis. Criteria evaluated include:
+
+\begin{itemize}
+    \item \textbf{accuracy}: where 1 = many problems interpreting the Data while 5 = no misinterpretation of Data; 
+    \item \textbf{formality}: where 1 = casual writing vs. 5 = government report writing; 
+    \item \textbf{faithfulness}: where 1 = makes grandiose claims not supported by the data while 5 = makes claims directly related to the data.
+    \item \textbf{clarity}: where 1 = confusing writing style while 5 = clear and precise.
+    \item \textbf{succinctness}: where 1 = unnecessarily wordy vs. 5 = succinct
+    \item \textbf{relevance}: where 1 = irrelevant commentary vs. 5 = relevant commentary about the data.
+\end{itemize}
+
+Finally, we calculated the performance metrics of our reporter, showing results by (1) graph type (\textbf{Figure \ref{fig:fig_bars_graph}}) and (2) metric (\textbf{Figure \ref{fig:fig_bars_metric}}), as well as by (3) pollutant (\textbf{Figure \ref{fig:fig_bars_pollutant}}), (4) year (\textbf{Figure \ref{fig:fig_bars_year}}), (5) county (\textbf{Figure \ref{fig:fig_bars_county}}), and (6) state (\textbf{Figure \ref{fig:fig_bars_state}}).
+
+
+
+\section{Quality Control Experiment Details}\label{sec:qdetails}
+
+\subsection{Quality Control Experiment Prompt}\label{sec:qcnotes}
+
+Our initial quality control experiment evaluated text generated from the following prompt syntax: 
+
+\begin{quote}
+“Your job is to interpret raw emissions data in plain English to make recommendations to policymakers. Formal language only. No contractions. No hyperbole (eg. 'crucial') Report numbers and percentages. Max 200 words. Max 25 words per sentence. Don't belittle the reader, eg. 'it is clear that'. For the data below, provide an informative header summarizing a key finding. Provide 3 bullet points, 10-15 words each, highlighting key statistics. Interpret the data in 3-4 sentences, using the statistics. Don’t duplicate content from bullet points. Give 1-2 sentences of clear recommendations based on the data.” + “the data set”.
+\end{quote}
+
+\FloatBarrier
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Quality Control Experiment Request to AI}\label{sec:json}
+
+\input{block/list_json}
+
+\FloatBarrier
+
+\begin{lstlisting}[language=json]
+    {
+    "Instructions": {
+        "format": ["Return a JSON of answers for each question on accuracy, formality, etc. Format like: {'accurate': TRUE/FALSE , 'accuracy': 1\~5, 'formality': 1\~5, ..., 'details': '0\~50 word explanation.'}"],
+        "accurate": ["Verify that no part of the paragraph in [Report] misinterprets the [Data] supplied. Return TRUE if no misinterpretation. FALSE if any problems."],
+        "accuracy": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = many problems interpreting [Data] vs. 5 = no misinterpretation of [Data]."],
+        "formality": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = casual writing vs. 5 = government report writing."],
+        "faithfulness": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = makes grandiose claims not supported by the data vs. 5 = makes claims directly related to the data."],
+        "clarity": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = confusing writing style vs. 5 = clear and precise."],
+        "succinctness": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = unncessarily wordy vs. 5 = succinct."],
+        "relevance": ["Rank paragraph in [Report] on a 5 point Likert scale, where 1 = irrelevant commentary vs. 5 = relevant commentary about [Data]."]
+        },
+        
+        "Data":[
+            "White County, IL | 2015 | PM10 | Time Driven | hours
+            
+            |type        |label_value |label_percent |
+            |:-----------|:-----------|:-------------|
+            |Light Truck |2.7 M       |51.8\%         |
+            |Car/ Bike   |1.9 M       |36.1\%         |
+            |Combo Truck |381.3 k     |7.3\%          |
+            |Heavy Truck |220.7 k     |4.2\%          |
+            |Bus         |30.6 k      |0.6\%          |"
+            ],
+            
+        "Report": {
+            "Findings": ["In 2015, Light Trucks contributed 51.8\% of PM10 emissions in White County, IL", "Cars/Bikes accounted for 36.1\% of total PM10 emissions in the area that year","Combo Trucks, Heavy Trucks, and Buses combined were responsible for only 12.1\% of PM10 emissions"],
+            "Recommendations": ["To lower PM10 emissions in White County, IL, focus should be on reducing emissions from Light Trucks and Cars/Bikes, as they collectively contribute to 87.9\% of total emissions. Implementing stricter emission standards for these vehicles or promoting the use of electric vehicles could help significantly reduce pollution levels in the region."]
+        }
+    }
+    \end{lstlisting}

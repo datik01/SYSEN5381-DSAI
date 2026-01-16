@@ -82,7 +82,7 @@ Submit via Canvas by the due date specified in the course schedule.
 
 ---
 
-![](prep/icons.png)
+![](../docs/images/homework.png)
 
 ---
 

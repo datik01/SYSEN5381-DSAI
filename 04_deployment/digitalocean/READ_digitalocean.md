@@ -34,7 +34,7 @@ Some good places to start:
 ---
 
 
-![](../../docs/prep/icons.png)
+![](../../docs/images/icons.png)
 
 ---
 

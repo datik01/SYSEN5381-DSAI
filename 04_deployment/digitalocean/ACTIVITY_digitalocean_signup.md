@@ -59,7 +59,7 @@ Finally, all cloud infrastructure you make will be grouped by **projects**. I en
 
 ---
 
-![](../../docs/prep/icons.png)
+![](../../docs/images/icons.png)
 
 ---
 

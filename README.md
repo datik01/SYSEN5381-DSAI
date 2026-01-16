@@ -51,7 +51,7 @@ Reach out via Canvas or use EdDiscussion. You're not expected to know everything
 
 ---
 
-![](docs/prep/icons.png)
+![](docs/images/icons.png)
 
 ---
 
