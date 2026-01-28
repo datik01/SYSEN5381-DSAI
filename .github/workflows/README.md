@@ -10,7 +10,7 @@ This GitHub Actions workflow automatically syncs changed ACTIVITY, LAB, HOMEWORK
    - `LAB_*.md`
    - `HOMEWORK*.md`
    - `TOOL*.md`
-3. **Filtering**: Only syncs files that have a `github_path` mapping in `canvastest/assignments_metadata.json`
+3. **Filtering**: Only syncs files that have a `github_path` mapping in `canvastest/assignments_metadata_5381.json` (from private canvastest repository)
 4. **Syncing**: Updates Canvas assignment descriptions using the `canvastest` submodule
 
 ## Setup
@@ -29,12 +29,66 @@ You must configure the following secrets in your GitHub repository settings:
    - Found in the Canvas course URL: `https://canvas.cornell.edu/courses/COURSE_ID`
    - Example: If URL is `https://canvas.cornell.edu/courses/81764`, the ID is `81764`
 
+3. **`SUBMODULE_SSH_KEY`** (Required if canvastest is private)
+   - SSH private key for accessing the private `canvastest` submodule
+   - See "Setting Up SSH Access for Private Submodule" below for detailed instructions
+
 #### How to Add Secrets
 
 1. Go to your repository on GitHub
 2. Click **Settings** → **Secrets and variables** → **Actions**
 3. Click **New repository secret**
 4. Add each secret with the exact names above
+
+### 1a. Setting Up SSH Access for Private Submodule
+
+If your `canvastest` repository is private, you need to set up SSH authentication so the workflow can access it.
+
+#### Step 1: Generate SSH Key Pair
+
+On your local machine, generate a new SSH key (if you don't already have one for this purpose):
+
+```bash
+ssh-keygen -t ed25519 -C "github-actions-canvastest" -f ~/.ssh/github_actions_canvastest
+```
+
+**Important**: Do NOT use a passphrase (press Enter when prompted).
+
+This creates two files:
+- `~/.ssh/github_actions_canvastest` (private key) - **Keep this secret!**
+- `~/.ssh/github_actions_canvastest.pub` (public key) - You'll add this to GitHub
+
+#### Step 2: Add Public Key as Deploy Key
+
+1. Go to your **private** `canvastest` repository on GitHub
+2. Click **Settings** → **Deploy keys** → **Add deploy key**
+3. **Title**: `GitHub Actions - dsai sync`
+4. **Key**: Paste the contents of `~/.ssh/github_actions_canvastest.pub`
+5. ✅ Check **Allow write access** (if you need to update the repo, otherwise read-only is fine)
+6. Click **Add key**
+
+#### Step 3: Add Private Key as Secret
+
+1. Go to your **public** `dsai` repository on GitHub
+2. Click **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+3. **Name**: `SUBMODULE_SSH_KEY`
+4. **Secret**: Paste the **entire contents** of `~/.ssh/github_actions_canvastest` (the private key)
+   - Include the `-----BEGIN OPENSSH PRIVATE KEY-----` header
+   - Include the `-----END OPENSSH PRIVATE KEY-----` footer
+   - Include all lines in between
+5. Click **Add secret**
+
+#### Step 4: Verify Setup
+
+After pushing to `main`, check the workflow logs:
+- Look for "Setup SSH for private submodule" step
+- Should see "Checkout submodules" step completing successfully
+- If you see authentication errors, verify the SSH key was copied correctly
+
+**Security Notes**:
+- The private key is stored securely as a GitHub secret
+- Deploy keys are repository-specific and more secure than PATs
+- The workflow automatically configures SSH before checking out submodules
 
 ### 2. Submodule Setup
 
@@ -46,15 +100,18 @@ git submodule update --init --recursive
 
 ### 3. Assignments Metadata File
 
-The workflow requires `canvastest/assignments_metadata.json` to exist with `github_path` mappings for each assignment you want to sync.
+The workflow uses `canvastest/assignments_metadata_5381.json` from the **private** `canvastest` repository. This file must exist with `github_path` mappings for each assignment you want to sync.
 
-#### Creating the Metadata File
+#### Why Private?
 
-If you don't have `assignments_metadata.json` yet:
+The metadata file contains assignment IDs, names, and mappings that you may prefer to keep private. By storing it in the private `canvastest` repository, it's not exposed in the public `dsai` repository.
 
-1. Run the fetch script locally (see [canvastest README](../canvastest/README.md))
-2. Edit the file to add `github_path` entries for each assignment
-3. Commit the file to your repository
+#### Creating/Updating the Metadata File
+
+1. In your local `canvastest` repository, run the fetch script (see [canvastest README](../../canvastest/README.md))
+2. Save the metadata as `assignments_metadata_5381.json` (or copy and rename from `assignments_metadata.json`)
+3. Edit the file to add `github_path` entries for each assignment
+4. Commit and push to the **private** `canvastest` repository
 
 Example entry:
 
@@ -67,7 +124,10 @@ Example entry:
 }
 ```
 
-**Important**: Only files with `github_path` entries will be synced. Files without mappings will be skipped.
+**Important**: 
+- Only files with `github_path` entries will be synced
+- Files without mappings will be skipped
+- The file must be named `assignments_metadata_5381.json` in the `canvastest` repository root
 
 ## Workflow Behavior
 
@@ -112,10 +172,14 @@ After pushing to `main`, you can view workflow runs:
 - This is normal if you didn't change any ACTIVITY/LAB/HOMEWORK/TOOL files
 - The workflow will skip syncing
 
-### "assignments_metadata.json not found"
+### "assignments_metadata_5381.json not found"
 
-- **Solution**: Create `canvastest/assignments_metadata.json` with at least an empty array `[]`
-- Or run the fetch script to generate it (see canvastest documentation)
+- **Cause**: The file doesn't exist in the private `canvastest` repository, or SSH authentication failed
+- **Solution**: 
+  1. Verify `assignments_metadata_5381.json` exists in the `canvastest` repository root
+  2. Check that `SUBMODULE_SSH_KEY` secret is configured correctly
+  3. Verify the deploy key was added to the `canvastest` repository
+  4. Check workflow logs for SSH authentication errors
 
 ### "No assignment found with github_path"
 
@@ -151,10 +215,18 @@ Since this is a **public repository**:
 
 - ✅ **Secrets are secure**: GitHub Actions secrets are never exposed in logs or code
 - ✅ **Workflow is visible**: Anyone can see the workflow file (this is fine - no secrets in it)
+- ✅ **Private metadata**: `assignments_metadata_5381.json` stays in private `canvastest` repo
+- ✅ **SSH keys**: Private SSH key is stored securely as a secret, never exposed
 - ⚠️ **Be careful**: Never log or echo secrets in workflow steps
 - ⚠️ **Check logs**: Ensure R scripts don't accidentally print API keys
+- ⚠️ **SSH key security**: The SSH private key should only be used as a deploy key for `canvastest`
 
 The workflow automatically masks secrets in logs. The `.env` file created during workflow execution is temporary and never committed.
+
+**Why keep metadata private?**
+- Assignment IDs and Canvas course structure details
+- Internal mapping information
+- While not highly sensitive, keeping it private provides an extra layer of security
 
 ## Cost
 
@@ -168,19 +240,24 @@ To test the sync script locally:
 # Create a test file with changed files
 echo "00_quickstart/ACTIVITY_git.md" > test_changed.txt
 
-# Run the sync script
-cd canvastest/R
-Rscript ../../scripts/sync_changed_files.R \
-  ../../test_changed.txt \
-  ../../course_config.json \
-  ../assignments_metadata.json
+# Run the sync script (from repository root)
+Rscript canvastest/scripts/sync_changed_files.R \
+  test_changed.txt \
+  course_config.json \
+  canvastest/assignments_metadata_5381.json
 ```
+
+**Note**: The sync script and SSH setup scripts are located in the private `canvastest` repository at `canvastest/scripts/` to keep sensitive setup information secure.
 
 ## Related Documentation
 
 - [canvastest Module README](../canvastest/README.md) - Detailed documentation of the sync module
 - [canvastest Workflow Documentation](../canvastest/docs/WORKFLOW.md) - Step-by-step workflow procedures
 - [canvastest Configuration Guide](../canvastest/docs/CONFIGURATION.md) - Configuration options
+
+## Scripts Location
+
+All scripts (including `sync_changed_files.R` and SSH setup scripts) are located in the **private** `canvastest` repository at `canvastest/scripts/`. This ensures sensitive setup information and scripts are not exposed in the public `dsai` repository.
 
 ## Support
 

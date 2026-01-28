@@ -14,11 +14,27 @@ jobs:
       contents: read
     
     steps:
-      - name: Checkout repository and submodules
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 2  # Need at least 2 commits for git diff
+      
+      - name: Setup SSH for private submodule
+        if: secrets.SUBMODULE_SSH_KEY != ''
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SUBMODULE_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          # Configure git to use SSH for canvastest submodule
+          git config --file=.gitmodules submodule.canvastest.url git@github.com:timothyfraser/canvastest.git
+      
+      - name: Checkout submodules
+        run: |
+          git submodule sync
+          git submodule update --init --recursive || (echo "Submodule checkout failed. If canvastest is private, ensure SUBMODULE_SSH_KEY secret is configured." && exit 1)
         
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
@@ -78,32 +94,32 @@ jobs:
               "branch": "${{ github.ref_name }}"
             },
             "files": {
-              "metadata_file": "canvastest/assignments_metadata.json"
+              "metadata_file": "canvastest/assignments_metadata_5381.json"
             }
           }
           EOF
           echo "Created course_config.json"
         
-      - name: Check if assignments_metadata.json exists
+      - name: Check if assignments_metadata_5381.json exists
         id: check-metadata
         run: |
-          if [ -f "canvastest/assignments_metadata.json" ]; then
+          if [ -f "canvastest/assignments_metadata_5381.json" ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Found assignments_metadata.json"
+            echo "Found assignments_metadata_5381.json"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Warning: assignments_metadata.json not found. Creating minimal structure."
-            echo "[]" > canvastest/assignments_metadata.json
+            echo "Warning: assignments_metadata_5381.json not found in canvastest submodule."
+            echo "This file must exist in the private canvastest repository."
           fi
         
       - name: Sync changed files to Canvas
         if: steps.changed-files.outputs.file_count > 0 && steps.check-metadata.outputs.exists == 'true'
         run: |
-          # Use the sync script from scripts directory
-          Rscript scripts/sync_changed_files.R \
+          # Use the sync script from canvastest/scripts directory
+          Rscript canvastest/scripts/sync_changed_files.R \
             changed_assignments.txt \
             course_config.json \
-            canvastest/assignments_metadata.json
+            canvastest/assignments_metadata_5381.json
         
       - name: Report skipped (no changed files)
         if: steps.changed-files.outputs.file_count == 0
@@ -113,5 +129,6 @@ jobs:
       - name: Report skipped (no metadata)
         if: steps.changed-files.outputs.file_count > 0 && steps.check-metadata.outputs.exists == 'false'
         run: |
-          echo "Warning: assignments_metadata.json not found. Cannot sync files."
-          echo "Please ensure canvastest/assignments_metadata.json exists with github_path mappings."
+          echo "Warning: assignments_metadata_5381.json not found. Cannot sync files."
+          echo "Please ensure canvastest/assignments_metadata_5381.json exists in the private canvastest repository."
+          echo "Also verify SUBMODULE_SSH_KEY secret is configured for private submodule access."
