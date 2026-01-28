@@ -26,8 +26,6 @@ resp = req_perform(req)
 resp$status_code # 200 = success
 # Return response as a json
 resp_body_json(resp)
-# Convert JSON to R list object
-resp_body_json(resp)
 
 # Or use this if you want to convert the response to a string first and then to a list
 fromJSON(resp_body_string(resp))
