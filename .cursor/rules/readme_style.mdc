@@ -1,0 +1,102 @@
+---
+description: Engineering Standard style guide for README generation
+globs: ["**/README.md"]
+alwaysApply: false
+---
+# README Engineering Standard Style Guide
+
+Apply this rule when creating or editing files named `README.md`. Enforce the following structure and tone for all generated READMEs.
+
+---
+
+## 1. Header Structure
+
+### Title (H1)
+- Use a single H1 with a **relevant emoji** that reflects the project (e.g., `# 📦 Project Name`, `# 🤖 API Client`).
+
+### Badges
+- Place **Shields.io** badges immediately under the title.
+- Include at least:
+  - **Python** (version or “Python 3” badge).
+  - **License** (e.g., MIT, Apache 2.0).
+  - **Status** (e.g., “maintained”, “active”, “beta”).
+- Use markdown image syntax: `![Alt](https://img.shields.io/...)`.
+
+### Table of Contents
+- **Mandatory** when the file is longer than 50 lines.
+- Use anchor links to H2 (and optionally H3) sections.
+- Keep ToC concise; list main sections only when the file is short.
+
+---
+
+## 2. Section Formatting (H2)
+
+Use **H2** for major sections. Assign the following **emojis** to these section types for consistent visual scanning:
+
+| Section purpose        | H2 format / emoji |
+|------------------------|-------------------|
+| Project description   | `## 🧐 About`     |
+| System design          | `## 🏗️ Architecture` |
+| Dependencies / tools   | `## 🛠️ Tech Stack`   |
+| Installation / setup   | `## 🚀 Getting Started` |
+| Usage / demo / results | `## 📉 Results/Demo` or `## 📉 Usage` |
+
+- Use these exact emoji + label pairs when the section matches the purpose above.
+- Add other H2s as needed; use a single, relevant emoji for consistency.
+
+---
+
+## 3. Visuals & Diagrams
+
+### Architecture
+- Under **🏗️ Architecture**, **always suggest or include** a **Mermaid.js flowchart** (or sequence diagram) that illustrates the system or data flow.
+- Use fenced code blocks with the `mermaid` language:
+  ```markdown
+  ```mermaid
+  flowchart LR
+    A[Component] --> B[Service]
+  ```
+  ```
+
+### Project layout
+- Include a **directory tree** of the project (or main folders) using a **`.` tree structure** (plain text, monospace).
+- Example:
+  ```text
+  .
+  ├── src/
+  │   ├── main.py
+  │   └── utils/
+  ├── tests/
+  └── README.md
+  ```
+- Keep the tree concise; omit irrelevant or generated folders (e.g., `__pycache__`, `node_modules`) unless they matter for the reader.
+
+---
+
+## 4. Code Blocks
+
+- **Always specify the language** for fenced code blocks (e.g., ` ```python `, ` ```bash `, ` ```json `).
+- **Include short comments** in code snippets that explain the **“why”** or non-obvious steps, not only the “what”.
+- Prefer small, runnable examples over long scripts.
+
+---
+
+## 5. Tone & Voice
+
+- **Precise**: Use correct technical terms; avoid vague wording.
+- **Technical**: Assume a developer reader; link to docs or specs when helpful.
+- **Concise**: Prefer short sentences and bullet lists; avoid long paragraphs.
+- **Active voice**: Write “Run the script” not “The script can be run”; “Install dependencies” not “Dependencies should be installed”.
+
+---
+
+## Checklist (when generating a README)
+
+- [ ] H1 title includes a relevant emoji.
+- [ ] Shields.io badges (Python, License, Status) appear under the title.
+- [ ] ToC present if file length &gt; 50 lines.
+- [ ] H2 sections use the prescribed emojis (🧐 About, 🏗️ Architecture, 🛠️ Tech Stack, 🚀 Getting Started, 📉 Results/Demo or Usage).
+- [ ] Architecture section includes or suggests a Mermaid diagram.
+- [ ] Project layout shown as a `.` tree.
+- [ ] All code blocks have a language tag and brief “why” comments where useful.
+- [ ] Wording is precise, technical, concise, and in active voice.
