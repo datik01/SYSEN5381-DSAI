@@ -48,16 +48,14 @@ The app looks for `.env` in `02_productivity/stock_app/` first, then in `02_prod
 
 ## Screenshots
 
-*Replace the placeholders below with your own images.*
-
 ### Main dashboard
 
-![App Screenshot](screenshot.png)
+![App Screenshot](app_screenshot.png)
 
 ### Candlestick chart
 
-![Candlestick Chart](screenshot_chart.png)
+![Candlestick Chart](candlestick_chart.png)
 
 ### Data table
 
-![Data Table](screenshot_table.png)
+![Data Table](data_table.png)
