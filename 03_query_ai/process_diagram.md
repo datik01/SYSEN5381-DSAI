@@ -1,20 +1,19 @@
-# Process diagram: dual-market pipeline
+# Process diagram: stock screener pipeline
 
 ## Stakeholder needs → System goals
 
 | Stakeholder need | System goal (pipeline stage) |
 |------------------|------------------------------|
-| Compare odds across Kalshi and Polymarket | Ingest both **Kalshi API** and **Polymarket API** data as parallel inputs |
-| Use a single, consistent view of events and prices | **STANDARDIZE**: normalize schemas, units, and identifiers so both sources are comparable |
-| Identify mispricings or arbitrage opportunities | **ANALYZE**: run dislocation logic and thresholds on standardized data |
-| Review results and act on findings | **Output**: provide a **Streamlit Dashboard** for visualization and decision support |
+| Access live or historical stock data | Pull stock data from **Massive API** (input) |
+| Filter stocks by criteria (e.g., price, volume, fundamentals) | **SCREEN**: apply filters and thresholds |
+| Rank and analyze candidates | **RANK / ANALYZE**: score, sort, and compare screened results |
+| View results and compare candidates | **Output**: **Stock Screener Dashboard** for exploration and selection |
 
 ---
 
 ```mermaid
 flowchart LR
-    A[Input: Kalshi API Data] --> B[STANDARDIZE]
-    C[Input: Polymarket API Data] --> B
-    B --> D[ANALYZE]
-    D --> E[Output:<br>Streamlit Dashboard]
+    A[Input: Massive API<br>Stock Data] --> B[SCREEN]
+    B --> C[RANK / ANALYZE]
+    C --> D[Output:<br>Stock Screener Dashboard]
 ```
