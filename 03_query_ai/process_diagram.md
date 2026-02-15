@@ -1,6 +1,7 @@
 ```mermaid
 flowchart LR
-    A[Input:<br>Raw data] --> B[STANDARDIZE]
-    B --> C[ANALYZE]
-    C --> D[Output:<br>Streamlit Dashboard]
+    A[Input: Kalshi API Data] --> B[STANDARDIZE]
+    C[Input: Polymarket API Data] --> B
+    B --> D[ANALYZE]
+    D --> E[Output:<br>Streamlit Dashboard]
 ```
