@@ -124,7 +124,7 @@ Massive **previous close** and **range aggregates** return OHLCV per bar. The ap
 
 ## 📉 Usage
 
-- **App**: Open the Sidebar to choose **Ticker**, **Timeframe** (1m, 5m, 15m, 30m, 1H, 4H, 1D, 1W), and explicit **Start / End** dates using the calendar widgets. The dashboard supports native light/dark mode. Use the tabs at the bottom to view the **Data Table** or click **Generate Report** within the **AI Report** tab for a Technical Analysis summary.
+- **App**: Open the Sidebar to choose **Ticker**, **Timeframe** (1m, 5m, 15m, 30m, 1H, 4H, 1D, 1W), and explicit **Start / End** dates using the calendar widgets. Use the tabs at the bottom to view the **Data Table** or click **Generate Report** within the **AI Report** tab for a Technical Analysis summary.
 - **Standalone scripts** (optional):
   - Test API: `python api_query.py`
   - Test AI report: `python ai_reporter.py`
@@ -135,7 +135,7 @@ Massive **previous close** and **range aggregates** return OHLCV per bar. The ap
 
 ```text
 .
-├── app.py           # Streamlit app (chart, theme, AI summary)
+├── app.py           # Streamlit app (chart, AI summary)
 ├── api_query.py     # Massive API: previous close + get_aggs_bars()
 ├── ai_reporter.py   # Ollama Cloud report from OHLC data
 ├── requirements.txt
