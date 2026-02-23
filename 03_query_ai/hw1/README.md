@@ -17,7 +17,6 @@
 - [🚀 Getting Started](#-getting-started)
 - [📉 Usage](#-usage)
 - [📁 Project Layout](#-project-layout)
-- [🔗 Git Links (for .docx)](#-git-links-for-docx)
 
 ---
 
@@ -146,16 +145,6 @@ Massive **previous close** and **range aggregates** return OHLCV per bar. The ap
 
 ---
 
-## 🔗 Git Links (for .docx)
 
-Use these paths with your repo base URL in the HW1 .docx:
-
-- API query script: `03_query_ai/hw1/api_query.py`
-- Web app: `03_query_ai/hw1/app.py`
-- AI reporting script: `03_query_ai/hw1/ai_reporter.py`
-
-Example: `https://github.com/USER/REPO/blob/main/03_query_ai/hw1/app.py`.
-
----
 
 ← 🏠 [Back to Top](#table-of-contents)
