@@ -1,0 +1,5 @@
+AI-GENERATED MARKET REPORT (Massive + Ollama Cloud)
+============================================================
+- **Previous close levels:** AAPL — **$255.78**; MSFT — **$401.32**; GOOGL — **$305.72**; AMZN — **$198.79**; NVDA — **$182.81**.  
+- **Large range:** MSFT had the widest daily range (**$7.49** between $398.05 low and $405.54 high).  
+- **Volume extremes:** NVDA traded the most shares (**161.9 M**), while AAPL had the lowest volume (**56.3 M**).
