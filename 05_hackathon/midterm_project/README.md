@@ -4,6 +4,33 @@ This project is an end-to-end AI-powered database pipeline that monitors, visual
 
 ## Architecture Pipeline
 
+```mermaid
+graph TD
+    %% Define components
+    subgraph Data Layer
+        DB[(Supabase PostgreSQL)]
+        Seed[synthetic_generator.py]
+    end
+    
+    subgraph Backend Services
+        API[FastAPI Server]
+        AI[Ollama Cloud / GPT]
+    end
+    
+    subgraph Client Application
+        Dash[Shiny for Python Dashboard]
+    end
+
+    %% Define flow
+    Seed -- "Inserts fake telemetry" --> DB
+    API -- "Queries history & live data" --> DB
+    Dash -- "GET /locations\nGET /congestion/history\nGET /congestion/current" --> API
+    Dash -- "POST /congestion/summarize\n(User requests insights)" --> API
+    API -- "Passes formatted traffic data" --> AI
+    AI -- "Returns actionable narrative" --> API
+    API -- "Returns Markdown summary" --> Dash
+```
+
 1. **Database Layer (Supabase PostgreSQL)**
    - Houses two relational tables: `locations` (city zones) and `congestion_readings` (hourly severity metrics).
    - A synthetic data generator (`seed_data.py`) populates the database with 365 days of historical traffic data, simulating organic rush-hour and nighttime trends.
