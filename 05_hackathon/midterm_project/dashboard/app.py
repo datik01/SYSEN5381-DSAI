@@ -269,16 +269,13 @@ def server(input, output, session):
         import matplotlib.cm as cm
         import matplotlib.colors as mcolors
         
-        # Prepare colormap to match heatmap
-        cmap = plt.get_cmap('mako')
-        norm = mcolors.Normalize(vmin=0, vmax=5)
+        # Use a bright categorical colormap for distinct lines
+        cmap = plt.get_cmap('Set3')
         
         for idx, location in enumerate(daily_avg['location_name'].unique()):
             loc_data = daily_avg[daily_avg['location_name'] == location]
             
-            # Color the line based on the location's overall average severity
-            avg_sev = loc_data['severity_level'].mean()
-            c = cmap(norm(avg_sev))
+            c = cmap(idx % cmap.N)
             
             ax.plot(loc_data['date'], loc_data['severity_level'], 
                     marker='o', markersize=6, linewidth=2.5, 
@@ -298,12 +295,12 @@ def server(input, output, session):
         plt.xticks(rotation=45, ha='right')
         plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.75)
         
-        # Legend styling - make it half-size 
+        # Legend styling - balanced size
         legend = plt.legend(bbox_to_anchor=(1.02, 0.95), loc='upper left', 
                             frameon=True, facecolor='#0f172a', 
                             edgecolor='#334155', title="Zones",
-                            fontsize=5, title_fontsize=6, 
-                            markerscale=0.5, handlelength=1.0, labelspacing=0.2)
+                            fontsize=7, title_fontsize=8, 
+                            markerscale=0.7, handlelength=1.5, labelspacing=0.4)
         plt.setp(legend.get_title(), color='#f8fafc')
         for text in legend.get_texts():
             text.set_color('#cbd5e1')
