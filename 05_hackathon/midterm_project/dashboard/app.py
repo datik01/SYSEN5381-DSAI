@@ -422,6 +422,7 @@ def server(input, output, session):
         cbar.set_label('Average Severity', color='#94a3b8', size=10)
         
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.25) # Extra padding for x-axis label
         return fig
 
 app = App(app_ui, server)
