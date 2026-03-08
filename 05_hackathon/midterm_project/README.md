@@ -1,88 +1,51 @@
-# City Congestion Tracker
+# CityPulse Congestion Hub (Midterm DL Challenge)
 
-This project is an end-to-end AI-powered database pipeline that tracks city traffic congestion, acting as a real-time monitoring and reporting system for a city transportation authority.
+This project is an end-to-end AI-powered database pipeline that monitors, visualizes, and analyzes city traffic congestion.
 
-It satisfies the requirements for the SYSEN-5381 **Midterm DL Challenge**.
+## Architecture Pipeline
 
-## System Architecture
+1. **Database Layer (Supabase PostgreSQL)**
+   - Houses two relational tables: `locations` (city zones) and `congestion_readings` (hourly severity metrics).
+   - A synthetic data generator (`seed_data.py`) populates the database with 365 days of historical traffic data, simulating organic rush-hour and nighttime trends.
 
-The pipeline consists of four main components interacting in sequence: **Database &rarr; REST API &rarr; Dashboard &rarr; AI**.
+2. **REST API Layer (FastAPI)**
+   - Acts as the secure middleware between the database and the frontend.
+   - Built with FastAPI (`main.py`) and deployed on Posit Connect as an ASGI application.
+   - Endpoints include fetching live data, querying historical time-series data, and an AI summarization route.
 
-1. **Database (Supabase PostgreSQL)**: 
-   - Stores master location data (traffic zones, intersections).
-   - Stores time-series data of congestion readings (severity level 1-5).
-   - *A synthetic data seed script (`database/seed_data.py`) generates 7 days of realistic historical data based on rush hour patterns.*
-2. **REST API (FastAPI / Python)**:
-   - Connects to Supabase to fetch location and congestion data.
-   - Provides endpoints to retrieve data by location and time.
-   - Provides a `POST /congestion/summarize` endpoint which handles the AI integration.
-3. **AI Model (Ollama Cloud `gpt-oss:20b-cloud`)**:
-   - The API securely aggregates the requested traffic data and sends a prompt to the Ollama Cloud model.
-   - The model acts as a "traffic analyst" and returns an actionable, plain-language narrative.
-4. **Dashboard (Shiny for Python)**:
-   - Provides an interactive UI for city officials.
-   - Allows users to slice data by "days back".
-   - Visualizes current traffic (bar chart) and historical trends (line chart).
-   - Features a "Generate AI Summary" button to quickly fetch insights from the API.
+3. **Dashboard Layer (Shiny for Python)**
+   - A modern, glassmorphism-styled web application.
+   - Users can drag a slider to fetch up to 1 year of historical data from the API and visualize it using Matplotlib and Seaborn heatmaps.
 
-## Repository Structure
+4. **AI Intelligence Layer (Ollama Cloud / GPT)**
+   - When requested via the dashboard, the API aggregates the selected time-horizon data and passes it via a prompt to an AI model (Ollama Cloud).
+   - The AI returns an actionable, plain-language narrative identifying the most congested zones and advising transportation authorities.
 
-```
-.
-├── .env                       # Environment variables (SUPABASE URL/KEY, OLLAMA_API_KEY)
-├── README.md                  # This file
-├── CODEBOOK.md                # Describes the data schema and variables
-├── database/
-│   ├── schema.sql             # SQL table definitions
-│   └── seed_data.py           # Synthetic data generation script
-├── api/
-│   ├── main.py                # FastAPI application
-│   ├── requirements.txt       # API dependencies
-│   └── manifest.json          # Deployment manifest
-└── dashboard/
-    ├── app.py                 # Shiny UI & Server
-    ├── requirements.txt       # Dashboard dependencies
-    └── manifest.json          # Deployment manifest
-```
+## Local Setup & Usage
 
-## How to Run Locally
-
-### Prerequisites
-1. Ensure you have Python 3.9+ installed.
-2. Initialize the Supabase tables using `database/schema.sql` (or via MCP).
-3. Ensure your `.env` contains:
-   ```env
-   SUPABASE_URL=...
-   SUPABASE_KEY=...
-   OLLAMA_API_KEY=...
+1. **Install Requirements:**
+   ```bash
+   pip install -r api/requirements.txt
+   pip install -r dashboard/requirements.txt
    ```
 
-### 1. Seed the Database
-```bash
-pip install supabase python-dotenv pydantic
-python database/seed_data.py
-```
+2. **Environment Variables:**
+   Create a `.env` file in the root directory:
+   ```env
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   OLLAMA_API_KEY=your_ollama_key
+   ```
 
-### 2. Start the REST API
-```bash
-cd api
-pip install -r requirements.txt
-uvicorn main:app --port 8000
-```
-*The API will be available at `http://127.0.0.1:8000`.*
+3. **Run the API:**
+   ```bash
+   uvicorn api.main:app --reload --port 8000
+   ```
 
-### 3. Start the Shiny Dashboard
-In a new terminal:
-```bash
-cd dashboard
-pip install -r requirements.txt
-shiny run app.py --port 8080
-```
-*The Dashboard will be available at `http://127.0.0.1:8080`.*
+4. **Run the Dashboard:**
+   ```bash
+   shiny run dashboard/app.py --port 8080
+   ```
 
 ## Deployment
-
-Both the `api/` and `dashboard/` directories contain a `manifest.json` file. 
-You can link this GitHub repository directly to Posit Connect or use the `rsconnect` CLI to deploy them. 
-
-Once the API is deployed to its production URL, update the `API_BASE_URL` environment variable in Posit Connect for the Dashboard app so they can communicate successfully.
+Both the API and the Dashboard contain `manifest.json` files configured for native deployment to Posit Connect using Python 3.12 environments.
