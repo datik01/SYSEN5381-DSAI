@@ -196,9 +196,16 @@ def server(input, output, session):
     @output
     @render.plot
     def plot_current():
+        reactive.invalidate_later(3000) # Refresh every 3 seconds!
+        
         df = fetch_current_congestion()
         if df.empty:
             return None
+            
+        # Add live jitter (-0.5 to +0.5) to simulate real-time sensors
+        import random
+        df['live_variance'] = [random.uniform(-0.5, 0.5) for _ in range(len(df))]
+        df['severity_level'] = (df['severity_level'] + df['live_variance']).clip(0, 5)
             
         import matplotlib.pyplot as plt
         
@@ -209,9 +216,18 @@ def server(input, output, session):
         
         df_sorted = df.sort_values('severity_level', ascending=False)
         
-        # Neon cyan bars
+        # Define a function to map severity to gradient color
+        def get_color(val):
+            if val < 2.0: return '#10b981' # Emerald (Clear)
+            if val < 3.0: return '#eab308' # Yellow (Normal)
+            if val < 4.0: return '#f97316' # Orange (Moderate)
+            return '#f43f5e'               # Rose (Heavy/Gridlock)
+            
+        colors = [get_color(val) for val in df_sorted['severity_level']]
+        
+        # Dynamic colored bars
         bars = ax.bar(df_sorted['name'], df_sorted['severity_level'], 
-                      color='#06b6d4', alpha=0.85, edgecolor='#22d3ee', linewidth=1)
+                      color=colors, alpha=0.9, edgecolor='white', linewidth=0.5)
         
         ax.set_ylim(0, 5)
         ax.set_ylabel("Severity Level", color="#94a3b8", fontsize=10)
