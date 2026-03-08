@@ -10,15 +10,17 @@ from dotenv import load_dotenv
 
 import requests
 
-# Load environment variables
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+# Load environment variables (will ignore silently if .env doesn't exist in prod)
+env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+if os.path.exists(env_path):
+    load_dotenv(dotenv_path=env_path)
 
 # Supabase setup
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
-    raise RuntimeError("Missing Supabase credentials in .env file")
+    raise RuntimeError("Missing Supabase credentials in environment variables")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
