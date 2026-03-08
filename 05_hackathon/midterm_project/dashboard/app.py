@@ -160,17 +160,20 @@ app_ui = ui.page_sidebar(
     ui.layout_columns(
         ui.card(
             ui.card_header("Live Severity Index"),
-            ui.output_plot("plot_current", height="450px")
+            ui.output_plot("plot_current", fill=True)
         ),
         ui.card(
             ui.card_header("Historical Saturation Trends"),
-            ui.output_plot("plot_history", height="450px")
+            ui.output_plot("plot_history", fill=True)
         ),
-        col_widths={"sm": (12, 12), "md": (12, 12), "lg": (6, 6)}
+        col_widths={"sm": (12, 12), "md": (12, 12), "lg": (6, 6)},
+        height="450px",
+        fill=False
     ),
     ui.card(
         ui.card_header("Macroscopic Congestion Heatmap (Hour vs Day)"),
-        ui.output_plot("plot_heatmap", height="450px")
+        ui.output_plot("plot_heatmap", fill=True),
+        height="400px"
     ),
     title=ui.h2("CityPulse Congestion Hub")
 )
