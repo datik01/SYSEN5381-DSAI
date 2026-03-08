@@ -170,6 +170,7 @@ app_ui = ui.page_sidebar(
         height="450px",
         fill=False
     ),
+    ui.HTML('<div style="margin-top: 3.5rem;"></div>'),
     ui.card(
         ui.card_header("Macroscopic Congestion Heatmap (Hour vs Day)"),
         ui.output_plot("plot_heatmap", fill=True),
@@ -198,22 +199,18 @@ def server(input, output, session):
             class_="ai-box"
         )
         
-    # High-frequency Reactive Polling
-    @reactive.poll(lambda: __import__('time').time(), 1)
-    def live_congestion_data():
-        df = fetch_current_congestion()
-        if not df.empty:
-            import random
-            df['live_variance'] = [random.uniform(-0.5, 0.5) for _ in range(len(df))]
-            df['severity_level'] = (df['severity_level'] + df['live_variance']).clip(0, 5)
-        return df
-        
     @output
     @render.plot
     def plot_current():
-        df = live_congestion_data()
+        reactive.invalidate_later(1) # Refresh every 1 second!
+        
+        df = fetch_current_congestion()
         if df.empty:
             return None
+            
+        import random
+        df['live_variance'] = [random.uniform(-0.5, 0.5) for _ in range(len(df))]
+        df['severity_level'] = (df['severity_level'] + df['live_variance']).clip(0, 5)
             
         import matplotlib.pyplot as plt
         
