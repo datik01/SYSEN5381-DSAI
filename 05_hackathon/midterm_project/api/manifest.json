@@ -15,10 +15,10 @@
   },
   "files": {
     "requirements.txt": {
-      "checksum": "243bdf21eb52b8fefcdc60078ac11322"
+      "checksum": "aacfb5f5e8a0c3d1a238fa0ed47fb553"
     },
     "main.py": {
-      "checksum": "ebba09b09c5250b480a855b36a8a7cdb"
+      "checksum": "df4310b37d33f866e38d365a811f3a96"
     },
     "manifestme.sh": {
       "checksum": "5aae29974bfce9b97ad93155ea4c419f"
