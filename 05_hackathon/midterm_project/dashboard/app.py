@@ -8,6 +8,13 @@ import os
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://127.0.0.1:8000")
 
 def fetch_locations():
+    """
+    Fetches the list of all monitored traffic locations from the REST API.
+    
+    Returns:
+        list: A list of dictionaries, where each dictionary represents a location 
+              with keys like 'id', 'name', and 'zone'. Returns an empty list on failure.
+    """
     try:
         response = requests.get(f"{API_BASE_URL}/locations")
         response.raise_for_status()
@@ -16,6 +23,15 @@ def fetch_locations():
         return []
 
 def fetch_current_congestion():
+    """
+    Fetches the most recent live congestion readings for all locations.
+    Uses a cache-busting timestamp parameter to ensure the latest data is retrieved.
+    
+    Returns:
+        pd.DataFrame: A pandas DataFrame containing the latest telemetric data with 
+                      columns for location details and 'severity_level'.
+                      Returns an empty DataFrame if the request fails.
+    """
     try:
         import time
         response = requests.get(f"{API_BASE_URL}/congestion/current?t={int(time.time()*1000)}")
@@ -25,6 +41,17 @@ def fetch_current_congestion():
         return pd.DataFrame()
 
 def fetch_historical_congestion(days=7):
+    """
+    Retrieves historical time-series congestion data over a specified time horizon.
+    
+    Args:
+        days (int, optional): The number of days to look back in history. Defaults to 7.
+        
+    Returns:
+        pd.DataFrame: A flattened pandas DataFrame containing columns for 'timestamp', 
+                      'severity_level', 'location_name', and 'zone'. Ensure timestamp 
+                      is parsed as datetime objects. Returns an empty DataFrame on failure.
+    """
     try:
         response = requests.get(f"{API_BASE_URL}/congestion/history?days={days}")
         response.raise_for_status()
@@ -49,6 +76,16 @@ def fetch_historical_congestion(days=7):
         return pd.DataFrame()
 
 def get_ai_insights(days_back=7):
+    """
+    Requests an AI-generated natural language summary of traffic conditions.
+    
+    Args:
+        days_back (int, optional): Number of days of context to provide to the AI model. Defaults to 7.
+        
+    Returns:
+        str: A Markdown-formatted string containing actionable insights and geographical 
+             analysis provided by the Ollama Cloud model.
+    """
     try:
         response = requests.post(f"{API_BASE_URL}/congestion/summarize", json={"days_back": days_back})
         response.raise_for_status()
@@ -181,6 +218,14 @@ app_ui = ui.page_sidebar(
 
 # Server Logic
 def server(input, output, session):
+    """
+    The main server function for the Shiny application handling reactive logic and rendering.
+    
+    Args:
+        input (Input): The object containing reactive values from UI inputs (e.g., input.days_back()).
+        output (Output): The object used to define render outputs for the UI.
+        session (Session): Information about the current user session connecting to the server.
+    """
     
     insights_val = reactive.Value("Awaiting query command...")
     
@@ -194,6 +239,12 @@ def server(input, output, session):
     @output
     @render.ui
     def ai_summary_card():
+        """
+        Renders the dynamically generated AI insights inside a styled HTML div container.
+        
+        Returns:
+            ui.TagList: Constructed HTML tags rendering the markdown string stored in `insights_val`.
+        """
         return ui.div(
             ui.markdown(f"{insights_val()}"),
             class_="ai-box"
@@ -202,6 +253,14 @@ def server(input, output, session):
     @output
     @render.plot
     def plot_current():
+        """
+        Renders the Live Severity Index bar chart.
+        This function invalidates and re-evaluates itself every 1 second `invalidate_later(1)` 
+        to simulate a high-frequency live dashboard update using dynamically injected jitter.
+        
+        Returns:
+            matplotlib.figure.Figure: The rendered Matplotlib figure object.
+        """
         reactive.invalidate_later(1) # Refresh every 1 second!
         
         df = fetch_current_congestion()
@@ -253,6 +312,13 @@ def server(input, output, session):
     @output
     @render.plot
     def plot_history():
+        """
+        Renders the Historical Saturation Trends line chart showing average daily severity.
+        Reacts to changes in the `input.days_back()` UI slider.
+        
+        Returns:
+            matplotlib.figure.Figure: The constructed Line chart with a categorical Set3 colormap.
+        """
         df = fetch_historical_congestion(input.days_back())
         if df.empty:
             return None
@@ -310,6 +376,13 @@ def server(input, output, session):
     @output
     @render.plot
     def plot_heatmap():
+        """
+        Renders the Macroscopic Congestion Heatmap aggregating data by Day of Week vs Hour of Day.
+        Uses Seaborn's heatmap functionality to plot congestion density.
+        
+        Returns:
+            matplotlib.figure.Figure: The constructed Seaborn heatmap figure matching the 'mako' colormap.
+        """
         import seaborn as sns
         df = fetch_historical_congestion(input.days_back())
         if df.empty:

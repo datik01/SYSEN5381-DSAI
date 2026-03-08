@@ -62,13 +62,27 @@ def read_root():
 
 @app.get("/locations", response_model=List[Location])
 def get_locations():
-    """Fetch all monitored traffic zones"""
+    """
+    Fetches all monitored traffic zones from the Supabase database.
+    
+    Returns:
+        List[Location]: A list of Location Pydantic models containing the id, 
+                        name, and zone for each monitored intersection.
+    """
     response = supabase.table("locations").select("*").execute()
     return response.data
 
 @app.get("/congestion/current")
 def get_current_congestion():
-    """Fetch the latest congestion reading for each location"""
+    """
+    Fetches the latest congestion reading for each monitored location.
+    Queries the database for the 50 most recent records and filters them 
+    in-memory to return exactly one (the latest) reading per location id.
+    
+    Returns:
+        list: A list of dictionaries representing the most recent live telemetry 
+              data per location, including joined location names and zones.
+    """
     # To ensure we get data even if the synthetic seed is over 2 hours old, 
     # we just fetch the 50 most recent readings globally.
     response = supabase.table("congestion_readings").select("*, locations(name, zone)").order("timestamp", desc=True).limit(50).execute()
@@ -93,7 +107,19 @@ def get_congestion_history(
     location_id: Optional[str] = Query(None, description="Filter by location ID"),
     days: int = Query(7, description="Number of days to go back")
 ):
-    """Fetch historical time-series data"""
+    """
+    Fetches historical time-series congestion data.
+    
+    Args:
+        location_id (str, optional): A specific Supabase UUID to filter the results. 
+                                     If None, returns data for all locations.
+        days (int): The number of days of history to retrieve, calculating backwards 
+                    from the current server time. Defaults to 7.
+                    
+    Returns:
+        list: A list of Supabase records joined with location metadata, ordered 
+              chronologically by timestamp ascending.
+    """
     start_time = (datetime.now() - timedelta(days=days)).isoformat()
     
     query = supabase.table("congestion_readings").select("*, locations(name, zone)").gte("timestamp", start_time)
@@ -106,7 +132,23 @@ def get_congestion_history(
 
 @app.post("/congestion/summarize", response_model=InsightResponse)
 def generate_insights(request: InsightRequest):
-    """Use AI to generate a plain-language summary of recent traffic patterns"""
+    """
+    Uses the Ollama Cloud API to generate a plain-language summary of recent traffic patterns.
+    
+    This endpoint fetches the data matching the `InsightRequest`, pre-aggregates 
+    the severity counts to fit within the LLM context window, builds a prompt, 
+    and requests an actionable narrative from the `gpt-oss:20b-cloud` model.
+    
+    Args:
+        request (InsightRequest): A Pydantic model specifying the `days_back` horizon 
+                                  and an optional `location_id` filter.
+                                  
+    Raises:
+        HTTPException: If the OLLAMA_API_KEY is missing or the external API call fails.
+        
+    Returns:
+        InsightResponse: A Pydantic model containing the markdown-formatted string `summary`.
+    """
     if not OLLAMA_API_KEY:
         raise HTTPException(status_code=500, detail="Ollama API key not configured")
         

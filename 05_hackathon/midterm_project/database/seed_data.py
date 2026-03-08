@@ -21,6 +21,21 @@ locations_data = [
 ]
 
 def seed_database():
+    """
+    Populates the Supabase database with synthetic metric data for testing the application.
+    
+    Workflow:
+    1. Inserts predefined physical traffic locations into the `locations` table.
+    2. Iterates over a 365-day history constraint, stepping hour-by-hour.
+    3. Calculates a base traffic severity algorithmically tied to time of day 
+       (e.g., higher severity during morning and evening rush hours).
+    4. Computes a localized `severity_level` between 1 and 5 utilizing randomized jitter.
+    5. Safely deletes existing telemetry data to prevent duplicate primary keys.
+    6. Inserts the new batch of readings securely via the Supabase REST client.
+    
+    Warning: 
+        This is a destructive transaction that wipes `congestion_readings` globally.
+    """
     print("Seeding locations...")
     # Insert locations
     locations_response = supabase.table('locations').insert(locations_data).execute()
