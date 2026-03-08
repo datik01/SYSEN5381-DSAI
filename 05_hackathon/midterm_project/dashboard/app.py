@@ -289,12 +289,13 @@ def server(input, output, session):
         ax.yaxis.grid(True, color='#334155', linestyle='dashed')
         
         plt.xticks(rotation=45, ha='right')
-        plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.75)
+        plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.80)
         
-        # Legend styling
-        legend = plt.legend(bbox_to_anchor=(1.04, 1), loc='upper left', 
+        # Legend styling - make it smaller and push it down slightly
+        legend = plt.legend(bbox_to_anchor=(1.02, 0.9), loc='upper left', 
                             frameon=True, facecolor='#0f172a', 
-                            edgecolor='#334155', title="Zones")
+                            edgecolor='#334155', title="Zones",
+                            fontsize=8, title_fontsize=9)
         plt.setp(legend.get_title(), color='#f8fafc')
         for text in legend.get_texts():
             text.set_color('#cbd5e1')
