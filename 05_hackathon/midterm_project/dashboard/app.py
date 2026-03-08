@@ -196,7 +196,7 @@ def server(input, output, session):
     @output
     @render.plot
     def plot_current():
-        reactive.invalidate_later(3000) # Refresh every 3 seconds!
+        reactive.invalidate_later(1000) # Refresh every 1 second!
         
         df = fetch_current_congestion()
         if df.empty:
