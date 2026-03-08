@@ -1,0 +1,326 @@
+import requests
+import pandas as pd
+import plotly.express as px
+from shiny import App, ui, render, reactive
+import os
+
+# API Configuration
+API_BASE_URL = os.environ.get("API_BASE_URL", "http://127.0.0.1:8000")
+
+def fetch_locations():
+    try:
+        response = requests.get(f"{API_BASE_URL}/locations")
+        response.raise_for_status()
+        return response.json()
+    except:
+        return []
+
+def fetch_current_congestion():
+    try:
+        response = requests.get(f"{API_BASE_URL}/congestion/current")
+        response.raise_for_status()
+        return pd.DataFrame(response.json())
+    except:
+        return pd.DataFrame()
+
+def fetch_historical_congestion(days=7):
+    try:
+        response = requests.get(f"{API_BASE_URL}/congestion/history?days={days}")
+        response.raise_for_status()
+        data = response.json()
+        if not data:
+            return pd.DataFrame()
+            
+        # Flatten the nested location dict
+        flat_data = []
+        for row in data:
+            flat_row = row.copy()
+            if 'locations' in flat_row:
+                flat_row['location_name'] = flat_row['locations']['name']
+                flat_row['zone'] = flat_row['locations']['zone']
+                del flat_row['locations']
+            flat_data.append(flat_row)
+            
+        df = pd.DataFrame(flat_data)
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        return df
+    except:
+        return pd.DataFrame()
+
+def get_ai_insights(days_back=7):
+    try:
+        response = requests.post(f"{API_BASE_URL}/congestion/summarize", json={"days_back": days_back})
+        response.raise_for_status()
+        return response.json().get("summary", "No insight generated.")
+    except Exception as e:
+        return f"Error connecting to AI: {str(e)}"
+
+# Custom CSS for Premium Glassmorphism Theme
+custom_css = """
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #f8fafc;
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+}
+.bslib-sidebar-layout .sidebar {
+    background: rgba(30, 41, 59, 0.7) !important;
+    backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+.card {
+    background: rgba(30, 41, 59, 0.4) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 16px !important;
+    margin-bottom: 1.5rem;
+}
+.card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    font-weight: 600;
+    color: #38bdf8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+.irs-bar, .irs-bar-edge, .irs-single {
+    background: #06b6d4 !important;
+    border-color: #06b6d4 !important;
+}
+.irs-line {
+    background: rgba(255,255,255,0.1) !important;
+    border: none !important;
+}
+h2 {
+    background: -webkit-linear-gradient(45deg, #e0f2fe, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: -1px;
+    padding: 10px 0;
+    margin: 0;
+}
+.navbar, .bslib-page-header, .bslib-page-title {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+h4 {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+.control-label {
+    color: #94a3b8 !important;
+    font-weight: 500;
+}
+.ai-box {
+    margin-top: 1.5rem; 
+    padding: 1.25rem; 
+    background: rgba(0,0,0,0.25); 
+    border-radius: 12px; 
+    font-size: 0.95rem; 
+    border-left: 4px solid #8b5cf6; 
+    color: #e2e8f0;
+    line-height: 1.6;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+}
+"""
+
+# UI Layout
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.h4("Control Panel"),
+        ui.input_slider("days_back", "Time Horizon (Days):", min=1, max=365, value=30),
+        ui.hr(style="border-color: rgba(255,255,255,0.05); margin: 2rem 0;"),
+        ui.h4("AI Strategist"),
+        ui.p("Generate macroscopic insights using Ollama Cloud intelligence.", style="font-size: 0.85rem; color: #94a3b8;"),
+        ui.input_action_button("btn_insights", "✨ Generate Insights", class_="btn-primary w-100"),
+        ui.output_ui("ai_summary_card")
+    ),
+    ui.head_content(ui.HTML(f"<style>{custom_css}</style>")),
+    
+    ui.p("Real-time monitoring and historical predictive analytics for metropolitan traffic flow.", style="color: #94a3b8; margin-bottom: 2rem;"),
+    
+    ui.layout_columns(
+        ui.card(
+            ui.card_header("Live Severity Index"),
+            ui.output_plot("plot_current", height="400px")
+        ),
+        ui.card(
+            ui.card_header("Historical Saturation Trends"),
+            ui.output_plot("plot_history", height="400px")
+        ),
+        col_widths={"sm": (12, 12), "md": (12, 12), "lg": (6, 6)}
+    ),
+    ui.card(
+        ui.card_header("Macroscopic Congestion Heatmap (Hour vs Day)"),
+        ui.output_plot("plot_heatmap", height="400px")
+    ),
+    title=ui.h2("CityPulse Congestion Hub")
+)
+
+# Server Logic
+def server(input, output, session):
+    
+    insights_val = reactive.Value("Awaiting query command...")
+    
+    @reactive.Effect
+    @reactive.event(input.btn_insights)
+    def _():
+        insights_val.set("Processing telemetry data...")
+        summary = get_ai_insights(input.days_back())
+        insights_val.set(summary)
+        
+    @output
+    @render.ui
+    def ai_summary_card():
+        return ui.div(
+            ui.markdown(f"{insights_val()}"),
+            class_="ai-box"
+        )
+        
+    @output
+    @render.plot
+    def plot_current():
+        df = fetch_current_congestion()
+        if df.empty:
+            return None
+            
+        import matplotlib.pyplot as plt
+        
+        plt.style.use('dark_background')
+        fig, ax = plt.subplots(figsize=(10, 5))
+        fig.patch.set_alpha(0.0)
+        ax.patch.set_alpha(0.0)
+        
+        df_sorted = df.sort_values('severity_level', ascending=False)
+        
+        # Neon cyan bars
+        bars = ax.bar(df_sorted['name'], df_sorted['severity_level'], 
+                      color='#06b6d4', alpha=0.85, edgecolor='#22d3ee', linewidth=1)
+        
+        ax.set_ylim(0, 5)
+        ax.set_ylabel("Severity Level", color="#94a3b8", fontsize=10)
+        ax.tick_params(colors="#94a3b8", labelsize=9)
+        
+        for spine in ['top', 'right']:
+            ax.spines[spine].set_visible(False)
+        for spine in ['bottom', 'left']:
+            ax.spines[spine].set_color('#334155')
+            
+        ax.yaxis.grid(True, color='#334155', linestyle='dashed')
+        
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        return fig
+        
+    @output
+    @render.plot
+    def plot_history():
+        df = fetch_historical_congestion(input.days_back())
+        if df.empty:
+            return None
+            
+        import matplotlib.pyplot as plt
+        
+        df['date'] = df['timestamp'].dt.date
+        daily_avg = df.groupby(['date', 'location_name'])['severity_level'].mean().reset_index()
+        
+        plt.style.use('dark_background')
+        fig, ax = plt.subplots(figsize=(10, 5))
+        fig.patch.set_alpha(0.0)
+        ax.patch.set_alpha(0.0)
+        
+        # Premium color palette for lines
+        colors = ['#f43f5e', '#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4']
+        
+        for idx, location in enumerate(daily_avg['location_name'].unique()):
+            loc_data = daily_avg[daily_avg['location_name'] == location]
+            c = colors[idx % len(colors)]
+            ax.plot(loc_data['date'], loc_data['severity_level'], 
+                    marker='o', markersize=6, linewidth=2.5, 
+                    color=c, label=location, alpha=0.9)
+            
+        ax.set_ylim(1, 5)
+        ax.set_ylabel("Average Severity", color="#94a3b8", fontsize=10)
+        ax.tick_params(colors="#94a3b8", labelsize=9)
+        
+        for spine in ['top', 'right']:
+            ax.spines[spine].set_visible(False)
+        for spine in ['bottom', 'left']:
+            ax.spines[spine].set_color('#334155')
+            
+        ax.yaxis.grid(True, color='#334155', linestyle='dashed')
+        
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        
+        # Legend styling
+        legend = plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', 
+                            frameon=True, facecolor='#0f172a', 
+                            edgecolor='#334155', title="Zones")
+        plt.setp(legend.get_title(), color='#f8fafc')
+        for text in legend.get_texts():
+            text.set_color('#cbd5e1')
+            
+        return fig
+
+    @output
+    @render.plot
+    def plot_heatmap():
+        import seaborn as sns
+        df = fetch_historical_congestion(input.days_back())
+        if df.empty:
+            return None
+            
+        import matplotlib.pyplot as plt
+        
+        # Extract components for heatmap
+        df['hour'] = df['timestamp'].dt.hour
+        df['day_of_week'] = df['timestamp'].dt.day_name()
+        
+        # Provide chronological order for days of week
+        days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        
+        # Aggregate average severity
+        heatmap_data = df.groupby(['day_of_week', 'hour'])['severity_level'].mean().unstack()
+        heatmap_data = heatmap_data.reindex(days_order)
+        
+        plt.style.use('dark_background')
+        fig, ax = plt.subplots(figsize=(12, 5))
+        fig.patch.set_alpha(0.0)
+        ax.patch.set_alpha(0.0)
+        
+        # Seaborn heatmap
+        sns.heatmap(heatmap_data, cmap='mako', ax=ax, 
+                    linewidths=0.5, linecolor='#1e293b')
+                    
+        ax.set_xlabel("Hour of Day (24H)", color="#94a3b8", fontsize=10)
+        ax.set_ylabel("Day of Week", color="#94a3b8", fontsize=10)
+        ax.tick_params(colors="#94a3b8", labelsize=9)
+        
+        # Style colorbar ticks and text to match dark background
+        cbar = ax.collections[0].colorbar
+        cbar.ax.yaxis.set_tick_params(color='#94a3b8')
+        cbar.outline.set_edgecolor('#334155')
+        plt.setp(plt.getp(cbar.ax.axes, 'yticklabels'), color='#94a3b8')
+        cbar.set_label('Average Severity', color='#94a3b8', size=10)
+        
+        plt.tight_layout()
+        return fig
+
+app = App(app_ui, server)

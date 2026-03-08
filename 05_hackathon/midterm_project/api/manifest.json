@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "locale": "en_US.UTF-8",
+  "metadata": {
+    "appmode": "python-api",
+    "entrypoint": "main"
+  },
+  "python": {
+    "version": "3.9.13",
+    "package_manager": {
+      "name": "pip",
+      "version": "25.3",
+      "package_file": "requirements.txt"
+    }
+  },
+  "files": {
+    "requirements.txt": {
+      "checksum": "243bdf21eb52b8fefcdc60078ac11322"
+    },
+    "main.py": {
+      "checksum": "ebba09b09c5250b480a855b36a8a7cdb"
+    },
+    "manifestme.sh": {
+      "checksum": "5aae29974bfce9b97ad93155ea4c419f"
+    }
+  }
+}
