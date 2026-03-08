@@ -17,7 +17,8 @@ def fetch_locations():
 
 def fetch_current_congestion():
     try:
-        response = requests.get(f"{API_BASE_URL}/congestion/current")
+        import time
+        response = requests.get(f"{API_BASE_URL}/congestion/current?t={int(time.time()*1000)}")
         response.raise_for_status()
         return pd.DataFrame(response.json())
     except:
@@ -241,7 +242,7 @@ def server(input, output, session):
         ax.yaxis.grid(True, color='#334155', linestyle='dashed')
         
         plt.xticks(rotation=45, ha='right')
-        plt.tight_layout()
+        plt.tight_layout(pad=3.0)
         return fig
         
     @output
