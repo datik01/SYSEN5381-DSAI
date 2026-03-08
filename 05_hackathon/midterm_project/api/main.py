@@ -69,10 +69,9 @@ def get_locations():
 @app.get("/congestion/current")
 def get_current_congestion():
     """Fetch the latest congestion reading for each location"""
-    # Simply get all recent readings, sort descending by time, we can group logic in client or here.
-    # To keep it simple, fetch last few hours and group by location
-    two_hours_ago = (datetime.now() - timedelta(hours=2)).isoformat()
-    response = supabase.table("congestion_readings").select("*, locations(name, zone)").gte("timestamp", two_hours_ago).order("timestamp", desc=True).execute()
+    # To ensure we get data even if the synthetic seed is over 2 hours old, 
+    # we just fetch the 50 most recent readings globally.
+    response = supabase.table("congestion_readings").select("*, locations(name, zone)").order("timestamp", desc=True).limit(50).execute()
     
     # Get latest reading per location
     latest = {}
