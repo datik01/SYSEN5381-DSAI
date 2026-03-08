@@ -219,16 +219,16 @@ def server(input, output, session):
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
         
+        import matplotlib.cm as cm
+        import matplotlib.colors as mcolors
+        
         df_sorted = df.sort_values('severity_level', ascending=False)
         
-        # Define a function to map severity to gradient color
-        def get_color(val):
-            if val < 2.0: return '#10b981' # Emerald (Clear)
-            if val < 3.0: return '#eab308' # Yellow (Normal)
-            if val < 4.0: return '#f97316' # Orange (Moderate)
-            return '#f43f5e'               # Rose (Heavy/Gridlock)
-            
-        colors = [get_color(val) for val in df_sorted['severity_level']]
+        # Match 'mako' colormap logic: map severity (0 to 5)
+        cmap = plt.get_cmap('mako')
+        norm = mcolors.Normalize(vmin=0, vmax=5)
+        
+        colors = [cmap(norm(val)) for val in df_sorted['severity_level']]
         
         # Dynamic colored bars
         bars = ax.bar(df_sorted['name'], df_sorted['severity_level'], 
@@ -266,13 +266,20 @@ def server(input, output, session):
         fig, ax = plt.subplots(figsize=(10, 5))
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
+        import matplotlib.cm as cm
+        import matplotlib.colors as mcolors
         
-        # Premium color palette for lines
-        colors = ['#f43f5e', '#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4']
+        # Prepare colormap to match heatmap
+        cmap = plt.get_cmap('mako')
+        norm = mcolors.Normalize(vmin=0, vmax=5)
         
         for idx, location in enumerate(daily_avg['location_name'].unique()):
             loc_data = daily_avg[daily_avg['location_name'] == location]
-            c = colors[idx % len(colors)]
+            
+            # Color the line based on the location's overall average severity
+            avg_sev = loc_data['severity_level'].mean()
+            c = cmap(norm(avg_sev))
+            
             ax.plot(loc_data['date'], loc_data['severity_level'], 
                     marker='o', markersize=6, linewidth=2.5, 
                     color=c, label=location, alpha=0.9)
@@ -289,13 +296,14 @@ def server(input, output, session):
         ax.yaxis.grid(True, color='#334155', linestyle='dashed')
         
         plt.xticks(rotation=45, ha='right')
-        plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.80)
+        plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.75)
         
-        # Legend styling - make it smaller and push it down slightly
-        legend = plt.legend(bbox_to_anchor=(1.02, 0.9), loc='upper left', 
+        # Legend styling - make it half-size 
+        legend = plt.legend(bbox_to_anchor=(1.02, 0.95), loc='upper left', 
                             frameon=True, facecolor='#0f172a', 
                             edgecolor='#334155', title="Zones",
-                            fontsize=8, title_fontsize=9)
+                            fontsize=5, title_fontsize=6, 
+                            markerscale=0.5, handlelength=1.0, labelspacing=0.2)
         plt.setp(legend.get_title(), color='#f8fafc')
         for text in legend.get_texts():
             text.set_color('#cbd5e1')
