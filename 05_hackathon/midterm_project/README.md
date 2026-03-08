@@ -53,3 +53,14 @@ Both the API and the Dashboard contain `manifest.json` files configured for nati
 **Live Endpoints:**
 - **Dashboard Deployment:** [https://connect.systems-apps.com/content/43ec486d-ba33-41cf-9efe-a318a6cb80c0/](https://connect.systems-apps.com/content/43ec486d-ba33-41cf-9efe-a318a6cb80c0/)
 - **API Deployment:** [https://connect.systems-apps.com/content/10263075-06b8-43f3-8dee-a938591f37f2](https://connect.systems-apps.com/content/10263075-06b8-43f3-8dee-a938591f37f2)
+
+## Dashboard Previews
+
+### Live Severity & AI AI Strategy Panel
+![Live Dashboard Overview](dashboard/screenshots/screenshot_1.png)
+
+### Historical Congestion Trends
+![Historical Trends](dashboard/screenshots/screenshot_2.png)
+
+### Macroscopic Congestion Density
+![Congestion Heatmap](dashboard/screenshots/screenshot_3.png)
