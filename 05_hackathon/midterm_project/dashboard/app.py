@@ -170,7 +170,7 @@ app_ui = ui.page_sidebar(
         height="450px",
         fill=False
     ),
-    ui.HTML('<div style="margin-top: 3.5rem;"></div>'),
+    ui.div(style="height: 1.5rem;"),
     ui.card(
         ui.card_header("Macroscopic Congestion Heatmap (Hour vs Day)"),
         ui.output_plot("plot_heatmap", fill=True),
@@ -288,11 +288,11 @@ def server(input, output, session):
             
         ax.yaxis.grid(True, color='#334155', linestyle='dashed')
         
-        plt.xticks(rotation=45)
-        plt.tight_layout()
+        plt.xticks(rotation=45, ha='right')
+        plt.subplots_adjust(bottom=0.3, top=0.95, left=0.1, right=0.75)
         
         # Legend styling
-        legend = plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', 
+        legend = plt.legend(bbox_to_anchor=(1.04, 1), loc='upper left', 
                             frameon=True, facecolor='#0f172a', 
                             edgecolor='#334155', title="Zones")
         plt.setp(legend.get_title(), color='#f8fafc')
