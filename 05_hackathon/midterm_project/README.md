@@ -62,3 +62,13 @@ Both the API and the Dashboard contain `manifest.json` files configured for nati
 
 ### Macroscopic Congestion Density
 ![Congestion Heatmap](dashboard/screenshots/screenshot_3.png)
+
+## API Test Executions
+
+To fulfill the requirement of providing 2-3 accurate, working test datasets demonstrating the system's functionality, an automated test script (`generate_test_executions.py`) was created. This script pings the **Live Posit Connect API endpoints** and saves the exact JSON payloads.
+
+The resulting test execution datasets are stored in the `test_executions/` directory:
+
+1. **[Live Congestion Data (GET `/congestion/current`)](test_executions/test_execution_1_current_congestion.json)**: Demonstrates fetching the most recent telemetry reading for each traffic zone.
+2. **[Historical Time-Series Data (GET `/congestion/history?days=3`)](test_executions/test_execution_2_historical_data.json)**: Demonstrates querying past congestion metrics filtered by a rolling time window.
+3. **[AI Insights Generation (POST `/congestion/summarize`)](test_executions/test_execution_3_ai_summary.json)**: Demonstrates the integration with Ollama Cloud, passing a payload requesting a 7-day analysis, and returning a Markdown-formatted narrative summary.
