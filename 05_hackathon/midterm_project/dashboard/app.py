@@ -75,7 +75,8 @@ body {
     backdrop-filter: blur(12px);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
     border-radius: 16px !important;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
 }
 .card-header {
     background: transparent !important;
@@ -159,17 +160,17 @@ app_ui = ui.page_sidebar(
     ui.layout_columns(
         ui.card(
             ui.card_header("Live Severity Index"),
-            ui.output_plot("plot_current", height="400px")
+            ui.output_plot("plot_current", height="450px")
         ),
         ui.card(
             ui.card_header("Historical Saturation Trends"),
-            ui.output_plot("plot_history", height="400px")
+            ui.output_plot("plot_history", height="450px")
         ),
         col_widths={"sm": (12, 12), "md": (12, 12), "lg": (6, 6)}
     ),
     ui.card(
         ui.card_header("Macroscopic Congestion Heatmap (Hour vs Day)"),
-        ui.output_plot("plot_heatmap", height="400px")
+        ui.output_plot("plot_heatmap", height="450px")
     ),
     title=ui.h2("CityPulse Congestion Hub")
 )
