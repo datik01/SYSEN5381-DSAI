@@ -1,0 +1,508 @@
+{
+    "test_timestamp": "2026-03-08T16:48:35.589643",
+    "endpoint": "/congestion/history?days=3",
+    "status_code": 200,
+    "total_records_returned": 330,
+    "data_sample_first_50": [
+        {
+            "id": "25569173-c643-43fc-aeb7-facd0a458170",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-05T21:09:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "35069277-8d12-4dd6-a649-96203bdf6d01",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-05T21:15:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "027e67e0-5991-4643-9d4d-755086bcfd4b",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-05T21:19:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "b6f164b3-059c-4bd2-84d7-e42e222320a2",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-05T21:54:07.350129+00:00",
+            "severity_level": 3,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "dba59ab9-bb62-4b98-8330-7ef5c927841a",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-05T21:57:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "2cca5f66-aa5b-466e-ae02-ae43a30d4b01",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-05T22:04:07.350129+00:00",
+            "severity_level": 3,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "3d8f1251-ec68-4b31-a662-a57ae1f6327c",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-05T22:12:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "2fdfdb0c-b888-4bc9-97ed-69cdb0b2d3c9",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-05T22:16:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "b32acf63-7a64-45bd-8436-65dc5d674a5b",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-05T22:22:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "d21236aa-0f2e-4b51-a019-d3cdd0250655",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-05T22:48:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "84a6d16c-273d-4185-b201-379fe6b671b3",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-05T23:04:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "72279955-c9d6-479e-84b0-4587320ee75e",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-05T23:22:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "9e7c25f5-b90a-40fa-aa8d-92e4220e6ce9",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-05T23:37:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "663f616d-0067-4ed7-83ea-7428265db8a9",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-05T23:52:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "f403512f-37d3-4709-9215-e622fbef95de",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T00:02:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "a211679d-3af5-43cf-8cd5-1ed5e776c2fb",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T00:18:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "67bad526-8962-4d4c-89d6-cfb39615d165",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T00:27:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "0115817e-77d1-4850-834f-1ae6b0fbe6d0",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T00:48:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "9fa4938a-722f-4641-b34b-88a6d1e9cb7f",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T00:52:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "4f189556-2bcf-45c3-a945-32b906fc74f6",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T00:59:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "db8825f5-1836-4de2-83cc-2d90e955e718",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T01:06:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "8b8c9a26-a773-4709-99d1-c6497e243db3",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T01:09:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "4fd99a3d-3f94-456c-9895-b48328482ac3",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T01:15:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "bf5f7f50-4bfd-4ea2-862c-dee0f3d2fcb8",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T01:20:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "e4f4a2fb-6608-4269-a50b-c5793302e63f",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T01:36:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "c4329e05-e317-4d3c-80ff-451ce8456afd",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T02:06:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "9a4c383f-9541-4e41-85a7-51a1da50c1cd",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T02:08:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "2fd9965b-d54e-4d7d-9db1-2cecba83ff03",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T02:11:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "a7cc3e96-e11f-4b2b-b494-c844e62022b6",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T02:14:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "73b8a5a1-8585-4d0a-ab61-a651113f1597",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T02:17:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "c4d3dc77-e7f9-4056-b9ed-b26d4698abd0",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T03:17:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "a8f62b92-3876-4502-9caf-fcc2b7a55f13",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T03:18:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "1e4326b2-0dea-4976-a4f5-72e728b40911",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T03:28:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "3be366dc-d807-488b-b44d-f05a7e0c51f1",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T03:48:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "3ecbd422-943c-4ea2-a960-1b072189f8f7",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T03:56:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "1c63298d-348f-4d68-b7df-0923645244fe",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T04:17:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "ec6c8eab-41ba-4be9-9013-6c42c4961c4f",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T04:18:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "855b5a8e-da93-462a-ba78-8002c37b61ff",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T04:41:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "cbd409f6-552d-4296-81b2-347ba1e9db72",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T04:49:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "8e9f824b-cb02-4f3f-90e1-751c224a5766",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T04:49:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "586aa0bd-f8a8-4ace-81f6-d3f4519e983f",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T05:18:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "703ee452-d27f-401e-8f3f-2e792c931020",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T05:36:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        },
+        {
+            "id": "09c6ea6f-0d86-4320-b1e2-56684826f98e",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T05:49:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "b8c43c4b-2e38-4df4-b03c-b088090baf9c",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T05:51:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "6048a593-5f05-4017-9f24-9a0e6597b5c9",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T06:02:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "dfc62a9e-e5a9-4a60-9c60-bf0671f37d31",
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "timestamp": "2026-03-06T06:04:07.350129+00:00",
+            "severity_level": 3,
+            "locations": {
+                "name": "Eastside Airport Road",
+                "zone": "East"
+            }
+        },
+        {
+            "id": "e11c7313-86b1-45b5-a4d6-c1de5756feec",
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "timestamp": "2026-03-06T06:12:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "Downtown Crossing",
+                "zone": "Central"
+            }
+        },
+        {
+            "id": "1a09f2c4-4e7d-403f-9fd2-c7ed6dcfd479",
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "timestamp": "2026-03-06T06:16:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "West End Bridge",
+                "zone": "West"
+            }
+        },
+        {
+            "id": "fc774a4f-e2b2-4187-8cc2-623c2e32e740",
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "timestamp": "2026-03-06T06:28:07.350129+00:00",
+            "severity_level": 2,
+            "locations": {
+                "name": "Southside Highway",
+                "zone": "South"
+            }
+        },
+        {
+            "id": "c5fa21c9-5a74-40ee-b5d0-ce342f749656",
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "timestamp": "2026-03-06T06:38:07.350129+00:00",
+            "severity_level": 1,
+            "locations": {
+                "name": "North End Tunnel",
+                "zone": "North"
+            }
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+{
+    "test_timestamp": "2026-03-08T16:48:35.187644",
+    "endpoint": "/congestion/current",
+    "status_code": 200,
+    "data": [
+        {
+            "location_id": "39bbe40a-4f3c-456e-8599-987d116c9a00",
+            "name": "West End Bridge",
+            "zone": "West",
+            "timestamp": "2026-03-08T14:56:07.350129+00:00",
+            "severity_level": 3
+        },
+        {
+            "location_id": "4ffc72c5-bdfe-497e-870e-302e64ffb50d",
+            "name": "Eastside Airport Road",
+            "zone": "East",
+            "timestamp": "2026-03-08T14:55:07.350129+00:00",
+            "severity_level": 1
+        },
+        {
+            "location_id": "07cd6c82-af1d-462c-915d-62c02a388a9d",
+            "name": "Southside Highway",
+            "zone": "South",
+            "timestamp": "2026-03-08T14:37:07.350129+00:00",
+            "severity_level": 2
+        },
+        {
+            "location_id": "941f0fd6-f0e9-48d1-b74e-95e248f28df8",
+            "name": "North End Tunnel",
+            "zone": "North",
+            "timestamp": "2026-03-08T14:34:07.350129+00:00",
+            "severity_level": 1
+        },
+        {
+            "location_id": "7f913681-449d-470f-b0e5-9717e96eaceb",
+            "name": "Downtown Crossing",
+            "zone": "Central",
+            "timestamp": "2026-03-08T14:14:07.350129+00:00",
+            "severity_level": 1
+        }
+    ]
+}

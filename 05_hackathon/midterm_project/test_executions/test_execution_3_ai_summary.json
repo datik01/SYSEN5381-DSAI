@@ -1,0 +1,11 @@
+{
+    "test_timestamp": "2026-03-08T16:48:38.227878",
+    "endpoint": "/congestion/summarize",
+    "request_payload": {
+        "days_back": 7
+    },
+    "status_code": 200,
+    "response": {
+        "summary": "Over the past week, 15\u202f% (124 out of 811) of readings fell into the heavy\u2011to\u2011gridlock bucket, signalling a growing congestion risk.  The West End Bridge alone accounts for 27 of those severe incidents, making it the single worst node by sheer volume of high\u2011severity reports.  Downtown Crossing and Southside Highway trail closely with 26 and 24 severe readings respectively, underscoring a regional choke point.  Immediate focus should be on the West End Bridge\u2014augmenting capacity, instituting temporary reroutes or stricter enforcement\u2014while simultaneously addressing the downstream constraints of Downtown Crossing and Southside Highway to stem the escalating gridlock."
+    }
+}
