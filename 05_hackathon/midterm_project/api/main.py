@@ -77,14 +77,15 @@ def get_current_congestion():
     # Get latest reading per location
     latest = {}
     for r in response.data:
-        loc_id = r["location_id"]
-        if loc_id not in latest:
+        loc_id = r.get("location_id")
+        loc_info = r.get("locations", {})
+        if loc_id and loc_id not in latest:
             latest[loc_id] = {
                 "location_id": loc_id,
-                "name": r["locations"]["name"],
-                "zone": r["locations"]["zone"],
-                "timestamp": r["timestamp"],
-                "severity_level": r["severity_level"]
+                "name": loc_info.get("name", "Unknown"),
+                "zone": loc_info.get("zone", "Unknown"),
+                "timestamp": r.get("timestamp"),
+                "severity_level": r.get("severity_level")
             }
     return list(latest.values())
 
@@ -129,11 +130,12 @@ def generate_insights(request: InsightRequest):
     worst_locations = {}
     
     for r in data:
-        level = r.get("severity_level")
+        level = r.get("severity_level", 1)
         severity_counts[level] = severity_counts.get(level, 0) + 1
         
         if level >= 4:
-            loc_name = r["locations"]["name"]
+            loc_info = r.get("locations", {})
+            loc_name = loc_info.get("name", "Unknown")
             worst_locations[loc_name] = worst_locations.get(loc_name, 0) + 1
             
     # Top 3 worst locations
