@@ -49,3 +49,7 @@ This project is an end-to-end AI-powered database pipeline that monitors, visual
 
 ## Deployment
 Both the API and the Dashboard contain `manifest.json` files configured for native deployment to Posit Connect using Python 3.12 environments.
+
+**Live Endpoints:**
+- **Dashboard Deployment:** [https://connect.systems-apps.com/content/43ec486d-ba33-41cf-9efe-a318a6cb80c0/](https://connect.systems-apps.com/content/43ec486d-ba33-41cf-9efe-a318a6cb80c0/)
+- **API Deployment:** [https://connect.systems-apps.com/content/10263075-06b8-43f3-8dee-a938591f37f2](https://connect.systems-apps.com/content/10263075-06b8-43f3-8dee-a938591f37f2)
