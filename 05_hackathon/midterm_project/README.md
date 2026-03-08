@@ -56,10 +56,8 @@ Both the API and the Dashboard contain `manifest.json` files configured for nati
 
 ## Dashboard Previews
 
-### Live Severity & AI AI Strategy Panel
+### Live Severity Historical, Congestion Trends & AI Strategy Panel
 ![Live Dashboard Overview](dashboard/screenshots/screenshot_1.png)
-
-### Historical Congestion Trends
 ![Historical Trends](dashboard/screenshots/screenshot_2.png)
 
 ### Macroscopic Congestion Density
