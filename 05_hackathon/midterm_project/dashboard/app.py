@@ -194,19 +194,22 @@ def server(input, output, session):
             class_="ai-box"
         )
         
+    # High-frequency Reactive Polling
+    @reactive.poll(lambda: __import__('time').time(), 1)
+    def live_congestion_data():
+        df = fetch_current_congestion()
+        if not df.empty:
+            import random
+            df['live_variance'] = [random.uniform(-0.5, 0.5) for _ in range(len(df))]
+            df['severity_level'] = (df['severity_level'] + df['live_variance']).clip(0, 5)
+        return df
+        
     @output
     @render.plot
     def plot_current():
-        reactive.invalidate_later(1000) # Refresh every 1 second!
-        
-        df = fetch_current_congestion()
+        df = live_congestion_data()
         if df.empty:
             return None
-            
-        # Add live jitter (-0.5 to +0.5) to simulate real-time sensors
-        import random
-        df['live_variance'] = [random.uniform(-0.5, 0.5) for _ in range(len(df))]
-        df['severity_level'] = (df['severity_level'] + df['live_variance']).clip(0, 5)
             
         import matplotlib.pyplot as plt
         
@@ -242,7 +245,8 @@ def server(input, output, session):
         ax.yaxis.grid(True, color='#334155', linestyle='dashed')
         
         plt.xticks(rotation=45, ha='right')
-        plt.tight_layout(pad=3.0)
+        # Ensure deep bottom margin (bottom=0.25 leaves 25% of height for labels)
+        plt.subplots_adjust(bottom=0.3, top=0.9, left=0.1, right=0.95)
         return fig
         
     @output
