@@ -29,12 +29,12 @@ Design and implement a multi-agent system with 2-3 agents working together. Crea
   - Define the agent's role clearly
   - Specify what format the agent should produce
   - Include any constraints or requirements
-- [ ] Use [`02_using_ollamar.R`](02_using_ollamar.R) and [`03_agents.R`](03_agents.R) as reference
+- [ ] Use [`02_using_ollamar.py`](02_using_ollamar.py) and [`03_agents.py`](03_agents.py) as reference
 - [ ] Consider using rules (see [`04_rules.yaml`](04_rules.yaml)) if helpful for structure
 
 ### Task 3: Test and Iterate
 
-- [ ] Implement your multi-agent workflow using [`functions.R`](functions.R) helper functions
+- [ ] Implement your multi-agent workflow using [`functions.py`](functions.py) helper functions
 - [ ] Run the workflow and observe each agent's output
 - [ ] Identify issues: Are prompts clear enough? Is the output format correct?
 - [ ] Refine your system prompts based on results:

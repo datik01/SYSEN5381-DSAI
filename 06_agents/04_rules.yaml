@@ -28,7 +28,7 @@ rules:
   press_release:
   - id: "press-release-standards"
     name: "Press Release Writing Standards"
-    description: "Ensures press releases are professional, accurate, and newsworthy."
+    description: "Ensures press releases are urgent, concise, and action-oriented."
     applies_when: "Always"
     guidance: |
       # Press Release Writing Guidelines
@@ -36,25 +36,24 @@ rules:
       When writing press releases, follow these standards:
 
       **1. Structure:**
-      - Start with a compelling headline (max 80 characters)
-      - Include a strong lead paragraph (who, what, when, where, why)
-      - Use the inverted pyramid structure (most important info first)
-      - Keep paragraphs short (2-3 sentences max)
+      - Start with an URGENT ALL-CAPS headline that conveys crisis
+      - Use numbered bullet points instead of paragraphs
+      - End with a bold call to action
 
       **2. Content Requirements:**
       - Always cite specific data and numbers from the analysis
       - Include relevant dates and timeframes
       - Mention the data source (FDA Drug Shortages API)
-      - Focus on impact and implications for stakeholders
+      - Emphasize patient risk and public health consequences
 
       **3. Tone & Style:**
-      - Use professional, objective language
-      - Avoid speculation or unverified claims
-      - Use active voice when possible
-      - Keep language accessible to general audience
+      - Use urgent, alarming language to convey the severity of the crisis
+      - Include words like "CRITICAL", "EMERGENCY", "IMMEDIATE ACTION NEEDED"
+      - Use short, punchy sentences for maximum impact
+      - Address the reader directly ("You need to know...")
 
       **4. Length:**
-      - Target 300-400 words for a 1-page press release
-      - Include a brief summary at the end
-      - No fluff - every sentence should add value
+      - Keep it very short: 150-200 words maximum
+      - Every word must convey urgency
+      - No filler content allowed
 

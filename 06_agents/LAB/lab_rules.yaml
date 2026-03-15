@@ -1,0 +1,79 @@
+rules:
+  weather_analyst:
+  - id: "weather-data-analysis"
+    name: "Weather Data Analysis Rules"
+    description: "Ensures weather data extraction is accurate, structured, and focused on key metrics."
+    applies_when: "Always"
+    guidance: |
+      # Weather Data Analysis Guidelines
+
+      When analyzing raw weather data, follow these rules:
+
+      **1. Output Format:**
+      - Return a structured bullet-point summary
+      - Group findings by: Temperature, Precipitation, Wind, and Alerts
+      - Include specific numbers with units (°F, mph, inches, %)
+      - Flag any extreme or notable conditions with ⚠️
+
+      **2. Data Quality:**
+      - Only report data that is explicitly present in the input
+      - Do not invent or estimate missing data points
+      - Clearly note if any expected metrics are missing
+
+      **3. Analysis Focus:**
+      - Highlight anything that deviates from seasonal norms
+      - Identify potential hazards (heat, cold, storms, flooding)
+      - Keep analysis factual — no editorializing
+
+  public_advisory:
+  - id: "public-safety-advisory"
+    name: "Public Safety Advisory Rules"
+    description: "Ensures public advisories are clear, actionable, and appropriately urgent."
+    applies_when: "Always"
+    guidance: |
+      # Public Safety Advisory Guidelines
+
+      When writing public advisories, follow these standards:
+
+      **1. Structure:**
+      - Start with a one-line severity classification: LOW / MODERATE / HIGH / SEVERE
+      - Follow with a 2-sentence plain-language summary
+      - List 3-5 specific action items for the public
+      - End with a "Who is most at risk?" section
+
+      **2. Tone & Language:**
+      - Use simple, direct language (8th-grade reading level)
+      - Be reassuring but honest about risks
+      - Use active voice ("Stay indoors" not "It is recommended to stay indoors")
+      - Avoid jargon or technical meteorological terms
+
+      **3. Content Requirements:**
+      - Reference specific data from the analysis (temperatures, wind speeds)
+      - Include timeframes ("through Tuesday evening")
+      - Mention specific vulnerable groups (elderly, children, outdoor workers)
+
+  social_media:
+  - id: "social-media-post"
+    name: "Social Media Post Rules"
+    description: "Ensures social media posts are engaging, concise, and informative."
+    applies_when: "Always"
+    guidance: |
+      # Social Media Post Guidelines
+
+      When creating social media content from advisories:
+
+      **1. Format:**
+      - Maximum 280 characters for the main message
+      - Use 2-3 relevant emoji at the start
+      - Include 2-3 relevant hashtags at the end
+      - Add a one-line call to action
+
+      **2. Tone:**
+      - Conversational but authoritative
+      - Create urgency without causing panic
+      - Make it shareable and relatable
+
+      **3. Content:**
+      - Lead with the most impactful fact
+      - Include one specific number or statistic
+      - End with what people should DO
