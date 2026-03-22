@@ -170,7 +170,7 @@ This produces 9 total tool calls for 3 tickers.
 
 | Key | Source | Purpose |
 |-----|--------|---------|
-| `MASSIVE_API_KEY` | [Massive API](https://massivecorp.com) | Stock market data (OHLCV bars, previous close) |
+| `MASSIVE_API_KEY` | [Massive API](https://massive.com) | Stock market data (OHLCV bars, previous close) |
 
 API key must be set in a `.env` file (see `.env.example`).
 
@@ -231,7 +231,7 @@ Edit `.env` and add your Massive API key:
 MASSIVE_API_KEY=your_key_here
 ```
 
-Get a free API key at [massivecorp.com](https://massivecorp.com).
+Get a free API key at [massive.com](https://massive.com).
 
 ### 3. Install Ollama and Pull Model
 
