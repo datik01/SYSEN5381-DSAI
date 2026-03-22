@@ -83,7 +83,9 @@ def agent(messages, model=DEFAULT_MODEL, output="text", tools=None, all=False):
                 # Execute the tool function
                 # Note: Tool functions must be defined in the global scope
                 func_name = tool_call["function"]["name"]
-                func_args = json.loads(tool_call["function"]["arguments"])
+                func_args = tool_call["function"]["arguments"]
+                if isinstance(func_args, str):
+                    func_args = json.loads(func_args)
                 
                 # Get the function from globals and execute it
                 func = globals().get(func_name)

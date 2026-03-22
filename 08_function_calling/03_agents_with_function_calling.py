@@ -21,6 +21,7 @@ import pandas as pd  # for data manipulation
 
 # Load helper functions for agent orchestration
 from functions import agent
+import functions as _fn  # also import the module to register tool functions later
 
 ## 0.3 Configuration #################################
 
@@ -33,6 +34,27 @@ MODEL = "smollm2:1.7b"
 def add_two_numbers(x, y):
     """Add two numbers together."""
     return x + y
+
+
+# NEW FUNCTION: Calculate the average of a list of numbers
+def calculate_average(numbers):
+    """
+    Calculate the average (mean) of a list of numbers.
+
+    Parameters:
+    -----------
+    numbers : list
+        A list of numbers to average
+
+    Returns:
+    --------
+    float
+        The arithmetic mean of the numbers
+    """
+    if not numbers:
+        return 0.0
+    return sum(numbers) / len(numbers)
+
 
 # Define another function to be used as a tool
 def get_table(df):
@@ -49,7 +71,21 @@ def get_table(df):
     str
         Markdown-formatted table string
     """
+    if isinstance(df, str):
+        try:
+            data = json.loads(df)
+            df = pd.DataFrame(data if isinstance(data, list) else [data])
+        except (json.JSONDecodeError, ValueError):
+            return df  # return the string as-is if unparseable
+    elif isinstance(df, dict):
+        df = pd.DataFrame([df])
     return df.to_markdown(index=False)
+
+# Register tool functions in the functions module's global scope
+# so that agent() can find and execute them via globals().get(func_name)
+_fn.add_two_numbers = add_two_numbers
+_fn.get_table = get_table
+_fn.calculate_average = calculate_average
 
 # 2. DEFINE TOOL METADATA ###################################
 
@@ -89,6 +125,26 @@ tool_get_table = {
                 "df": {
                     "type": "object",
                     "description": "The data.frame to convert to a markdown table using pandas to_markdown()"
+                }
+            }
+        }
+    }
+}
+
+# NEW TOOL METADATA: Calculate average
+tool_calculate_average = {
+    "type": "function",
+    "function": {
+        "name": "calculate_average",
+        "description": "Calculate the average (mean) of a list of numbers",
+        "parameters": {
+            "type": "object",
+            "required": ["numbers"],
+            "properties": {
+                "numbers": {
+                    "type": "array",
+                    "items": {"type": "number"},
+                    "description": "A list of numbers to average"
                 }
             }
         }
@@ -146,5 +202,22 @@ print("📊 Manual Table Creation:")
 manual_table = df.to_markdown(index=False)
 print(manual_table)
 print()
+
+# 6. EXAMPLE 4: NEW TOOL — CALCULATE AVERAGE ###################################
+
+# Test the new calculate_average tool with the agent wrapper
+messages = [
+    {"role": "user", "content": "What is the average of 10, 20, 30, 40, and 50?"}
+]
+
+resp3 = agent(messages=messages, model=MODEL, output="tools", tools=[tool_calculate_average])
+print("🔧 Tool Call #3 Result (calculate_average):")
+print(resp3)
+print()
+
+# Access the output from the tool call
+if isinstance(resp3, list) and len(resp3) > 0:
+    print(f"Average: {resp3[0].get('output', 'No output')}")
+    print()
 
 # Note: We can use the agent() function to rapidly build and test out agents with or without tools.
