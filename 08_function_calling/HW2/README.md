@@ -4,16 +4,6 @@
 
 ---
 
-## System Description
-
-This system is an AI-powered investment research assistant that combines three core capabilities: multi-agent orchestration, retrieval-augmented generation (RAG), and function calling with external APIs. Given an industry keyword, the system searches a startup database, identifies comparable small-cap publicly-traded stocks using an LLM, fetches three years of quarterly market performance data from the Massive API, computes performance metrics, retrieves latest prices, and produces a comprehensive investment analysis — all through a 4-agent pipeline running on a local LLM via Ollama.
-
-The system was designed around a practical use case: assessing a sector's market potential by combining private startup data with public market performance of comparable small-cap companies. Agent 1 uses RAG to search a CSV database of 100 tech startups by industry and description. Agent 2 uses the LLM to identify comparable small-cap or micro-cap publicly-traded ticker symbols — it is explicitly instructed to avoid mega-caps and find closer startup comparisons. Agent 3 chains together three tool functions per ticker: `fetch_stock_data()` retrieves 3 years of quarterly OHLCV bars, `compute_performance_metrics()` calculates return, volatility, and EMA trend, and `get_latest_price()` fetches the most recent trading day's close. Agent 4 synthesizes both the startup landscape and all market data into a final investment analysis with recommendations.
-
-The main design challenge was managing the Massive API's rate limit (5 calls/min on the free tier). The solution uses `raw=True` to prevent the client library from auto-following pagination cursors, and `limit=50000` to ensure all base daily bars are aggregated into quarterly bars in a single response — guaranteeing exactly 1 API call per ticker for historical data. The `compute_performance_metrics()` tool is a pure computation function (no API call), and `get_latest_price()` uses the lightweight `get_previous_close_agg` endpoint. Tool chaining (fetch → compute → latest) demonstrates a real multi-step function calling workflow.
-
----
-
 ## System Architecture
 
 ### Agent Roles and Workflow
