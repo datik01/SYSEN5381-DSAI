@@ -118,9 +118,9 @@ md_content = f"""# Investment Analysis: {INDUSTRY_QUERY} Sector
 
 for p in performance_data:
     if "error" not in p:
-        # Find matching latest price
+        # Find matching latest price — fall back to quarterly data if API has no prev close
         lp = next((l for l in latest_prices if l.get("ticker") == p["ticker"]), {})
-        latest_close = lp.get("previous_close", "N/A")
+        latest_close = lp.get("previous_close") or p.get("latest_close", "N/A")
         md_content += f"""### {p['ticker']}
 - **Period**: {p.get('period', 'N/A')}
 - **Total Return**: {p.get('total_return_pct', '?')}%
