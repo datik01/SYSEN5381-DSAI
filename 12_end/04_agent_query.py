@@ -19,7 +19,7 @@ import requests
 
 load_dotenv(ROOT_DIR / "12_end" / ".env")
 
-ENDPOINT_URL = os.getenv("API_PUBLIC_URL", "http://localhost:8000").rstrip("/")
+ENDPOINT_URL = os.getenv("API_PUBLIC_URL", "http://localhost:8002").rstrip("/")
 MODEL = os.getenv("OLLAMA_MODEL", "smollm2:1.7b")
 
 UNIT_NOTE = "vehicles observed in one representative minute (1m/t1 interval) within the requested hour and day of week"
@@ -94,7 +94,7 @@ messages = [
     },
     {
         "role": "user",
-        "content": "Predict Brussels vehicle count for Monday for every hour (0 through 23).",
+        "content": "Predict Brussels vehicle count for Tuesday at 9 AM. You MUST pass day_of_week=2 and hours_of_day=[9]",
     }
 ]
 tools = [tool_predict_vehicle_count]
@@ -110,8 +110,8 @@ print("Agent result:", result)
 
 # 5. VERIFY ###################################
 
-direct = predict_vehicle_count(day_of_week=1, hours_of_day=list(range(24)))
+direct = predict_vehicle_count(day_of_week=2, hours_of_day=list(range(24)))
 print("Direct API call predictions returned:", len(direct["predictions"]))
-print(f"Sample one-minute vehicle count: {direct['predictions'][8]['predicted_vehicle_count']} (1m/t1 at Monday 08:00)")
+print(f"Sample one-minute vehicle count: {direct['predictions'][9]['predicted_vehicle_count']} (1m/t1 at Tuesday 09:00)")
 print("Unit:", UNIT_NOTE)
-print("Match:", str(direct["predictions"][8]["predicted_vehicle_count"]) in str(result))
+print("Match:", str(direct["predictions"][9]["predicted_vehicle_count"]) in str(result))
