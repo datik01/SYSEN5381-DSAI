@@ -44,17 +44,7 @@ jobs:
           r-version: '4.5.2'
           use-public-rspm: true
 
-      - name: SET USER LIBRARY PATH FOR CACHE
-        run: echo "R_LIBS_USER=${HOME}/.cache/R/gha-library" >> $GITHUB_ENV
 
-      - name: CACHE PACKAGES
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-lib-ingest-${{ hashFiles('.github/workflows/12-ingest-r.yml', '12_end/01_ingest_traffic.R') }}
-          restore-keys: |
-            ${{ runner.os }}-r-lib-ingest-
-            ${{ runner.os }}-r-lib-
 
       - name: SETUP DEPENDENCIES
         uses: r-lib/actions/setup-r-dependencies@v2

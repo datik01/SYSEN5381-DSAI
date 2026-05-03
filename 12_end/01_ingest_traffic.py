@@ -1,3 +1,4 @@
+from __future__ import annotations
 # 01_ingest_traffic.py
 # Ingest Brussels Realtime Traffic Counts (1m, t1)
 # Pairs with 01_ingest_traffic.R
