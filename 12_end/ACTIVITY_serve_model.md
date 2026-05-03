@@ -32,8 +32,8 @@ You can also run helper scripts:
 - [`03_plumber/runme.R`](03_plumber/runme.R)
 - [`03_fastapi/runme.sh`](03_fastapi/runme.sh)
 
-- [ ] Start the server in one terminal window. Leave it running.
-- [ ] In a second terminal or browser, test the endpoint:
+- [x] Start the server in one terminal window. Leave it running.
+- [x] In a second terminal or browser, test the endpoint:
 
 ```bash
 curl "http://localhost:8000/predict?day_of_week=1&hour_of_day=8"
@@ -65,8 +65,8 @@ resp = requests.get("http://localhost:8000/predict", params={"day_of_week": 1, "
 resp.json()["predicted_vehicle_count"]
 ```
 
-- [ ] Run one of the snippets above and confirm you get back a numeric prediction.
-- [ ] Keep your endpoint URL — you will paste it into the next two activities.
+- [x] Run one of the snippets above and confirm you get back a numeric prediction.
+- [x] Keep your endpoint URL — you will paste it into the next two activities.
 
 ---
 
