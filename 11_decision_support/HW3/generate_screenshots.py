@@ -57,7 +57,7 @@ Generating and validating report 3/10...
 Generating and validating report 4/10...
 Generating and validating report 5/10...
 """
-create_text_image(terminal_run_text, "screenshot_terminal_run.png", bg_color=(20, 20, 20), text_color=(220, 220, 220))
+create_text_image(terminal_run_text, "screenshot_terminal_run.png", bg_color=(0, 0, 0), text_color=(255, 255, 255))
 
 # 2. Terminal Output (Stats)
 terminal_stats_text = """Results saved to validation_results.csv
@@ -74,12 +74,12 @@ Prompt B (Detailed)    25.6
 Prompt C (Expert)      26.0
 Name: Total_Score, dtype: float64
 """
-create_text_image(terminal_stats_text, "screenshot_terminal_stats.png", bg_color=(20, 20, 20), text_color=(220, 220, 220))
+create_text_image(terminal_stats_text, "screenshot_terminal_stats.png", bg_color=(0, 0, 0), text_color=(255, 255, 255))
 
 # 3. Sample Validation Result
 with open("sample_validation_output.txt", "r") as f:
     sample_text = f.read()
-create_text_image(sample_text, "screenshot_sample.png", bg_color=(30, 30, 30), text_color=(200, 200, 200))
+create_text_image(sample_text, "screenshot_sample.png", bg_color=(0, 0, 0), text_color=(255, 255, 255))
 
 # 4. Validation Criteria Code
 code_text = """class ValidationResult(BaseModel):
@@ -96,5 +96,5 @@ def validate_report(report_text):
     3. Professional Tone (1-10): Is the language suitable for a business environment?
     \"\"\"
 """
-create_text_image(code_text, "screenshot_code.png", bg_color=(40, 44, 52), text_color=(171, 178, 191))
+create_text_image(code_text, "screenshot_code.png", bg_color=(0, 0, 0), text_color=(255, 255, 255))
 
