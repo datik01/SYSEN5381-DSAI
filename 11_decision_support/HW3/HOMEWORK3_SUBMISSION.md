@@ -53,10 +53,19 @@ One challenge was ensuring the LLM evaluator remained consistent in its scoring.
 *(Please insert the following screenshots here before converting to .docx)*
 
 1. **System in Action**: Screenshot of the terminal running `python report_validator.py`.
+![System in Action](screenshot_terminal.png)
+
 2. **Sample Validation Result**: Screenshot of `sample_validation_output.txt` showing the JSON/text output.
+![Sample Validation Result](screenshot_sample.png)
+
 3. **Statistical Analysis Output**: Screenshot of the console printing the ANOVA F-statistic and p-value.
+(Included in the System in Action screenshot)
+
 4. **Comparison of Scores**: Screenshot of the `validation_results.png` boxplot.
+![Comparison of Scores](validation_results.png)
+
 5. **Validation Criteria/Rubric**: Screenshot of the Pydantic schema in the code.
+![Validation Criteria Code](screenshot_code.png)
 
 ---
 
