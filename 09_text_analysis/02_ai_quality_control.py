@@ -24,17 +24,20 @@ from dotenv import load_dotenv  # for loading .env file
 ## 0.2 Configuration #################################
 
 # Choose your AI provider: "ollama" or "openai"
-AI_PROVIDER = "ollama"  # Change to "openai" if using OpenAI
+AI_PROVIDER = "ollama"  # Using ollama instead of openai as requested
+
+# Load environment variables
+load_dotenv()
 
 # Ollama configuration
 PORT = 11434
-OLLAMA_HOST = f"http://localhost:{PORT}"
-OLLAMA_MODEL = "llama3.2:latest"  # Use a model that supports JSON output
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "https://ollama.com").rstrip("/")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "nemotron-3-nano:30b-cloud")  # Use a model that supports JSON output
+OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY", "")
 
 # OpenAI configuration
-load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = "gpt-4o-mini"  # Low-cost model
+OPENAI_MODEL = "gpt-3.5-turbo"  # Bypass 429 rate limit errors
 
 ## 0.3 Load Sample Data #################################
 
@@ -96,16 +99,19 @@ Quality Control Criteria:
 
 7. **relevance** (1-5 Likert scale): Rank the paragraph on a 5-point Likert scale, where 1 = irrelevant commentary vs. 5 = relevant commentary about the data.
 
+8. **professionalism** (1-5 Likert scale): Rank the paragraph on a 5-point Likert scale, where 1 = emotionally charged and biased vs. 5 = extremely objective and impassionate.
+
 Return your response as valid JSON in this exact format:
 {
-  "accurate": true/false,
-  "accuracy": 1-5,
-  "formality": 1-5,
-  "faithfulness": 1-5,
-  "clarity": 1-5,
-  "succinctness": 1-5,
-  "relevance": 1-5,
-  "details": "0-50 word explanation of your assessment"
+  "accurate": true,
+  "accuracy": 5,
+  "formality": 5,
+  "faithfulness": 4,
+  "clarity": 5,
+  "succinctness": 3,
+  "relevance": 5,
+  "professionalism": 4,
+  "details": "0-50 word explanation of your assessment."
 }
 """
     
@@ -120,24 +126,25 @@ Return your response as valid JSON in this exact format:
 def query_ai_quality_control(prompt, provider=AI_PROVIDER):
     if provider == "ollama":
         # Query Ollama
-        url = f"{OLLAMA_HOST}/api/chat"
+        url = f"{OLLAMA_HOST}/api/generate"
         
         body = {
             "model": OLLAMA_MODEL,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
+            "prompt": prompt,
             "format": "json",  # Request JSON output
             "stream": False
         }
         
-        response = requests.post(url, json=body)
+        headers = {"Content-Type": "application/json"}
+        if OLLAMA_API_KEY:
+            headers["Authorization"] = f"Bearer {OLLAMA_API_KEY}"
+            
+        print(f"   Executing HTTP POST -> {url}")
+        
+        response = requests.post(url, headers=headers, json=body)
         response.raise_for_status()
         response_data = response.json()
-        output = response_data["message"]["content"]
+        output = response_data.get("response", "")
         
     elif provider == "openai":
         # Query OpenAI
@@ -199,6 +206,7 @@ def parse_quality_control_results(json_response):
         "clarity": [quality_data["clarity"]],
         "succinctness": [quality_data["succinctness"]],
         "relevance": [quality_data["relevance"]],
+        "professionalism": [quality_data.get("professionalism", 3)], # Default if missing
         "details": [quality_data["details"]]
     })
     
@@ -231,7 +239,7 @@ print()
 ## 2.4 Calculate Overall Score #################################
 
 # Calculate average Likert score (excluding boolean accurate)
-likert_scores = quality_results[["accuracy", "formality", "faithfulness", "clarity", "succinctness", "relevance"]]
+likert_scores = quality_results[["accuracy", "formality", "faithfulness", "clarity", "succinctness", "relevance", "professionalism"]]
 overall_score = likert_scores.mean(axis=1).values[0]
 
 quality_results["overall_score"] = round(overall_score, 2)

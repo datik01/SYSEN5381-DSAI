@@ -1,3 +1,4 @@
+from typing import Optional
 # api.py
 # HTTP surface (FastAPI) for the disaster situational brief agent — pairs with loop.py and guardrails.py
 # Tim Fraser
@@ -93,7 +94,7 @@ def root_redirect(request: Request) -> RedirectResponse:
 class SessionState:
     messages: list[dict[str, Any]] = field(default_factory=list)
     paused: bool = False
-    resume_token: str | None = None
+    resume_token: Optional[str] = None
 
 
 sessions: dict[str, SessionState] = {}
@@ -165,7 +166,7 @@ class AgentBody(BaseModel):
         ],
         min_length=1,
     )
-    session_id: str | None = Field(
+    session_id: Optional[str] = Field(
         None,
         description=(
             "**First request:** omit this field (or send `null`). The server creates a **new UUID** and returns it as `session_id`. "
@@ -174,7 +175,7 @@ class AgentBody(BaseModel):
         ),
         examples=["8f1c2b3a-4d5e-6f70-89ab-c0def1234567"],
     )
-    resume_token: str | None = Field(
+    resume_token: Optional[str] = Field(
         None,
         description=(
             "Omit unless you are **resuming** a paused session. When the last response had `status: paused_for_human`, "
@@ -183,7 +184,7 @@ class AgentBody(BaseModel):
         ),
         examples=["550e8400-e29b-41d4-a716-446655440000"],
     )
-    max_turns: int | None = Field(
+    max_turns: Optional[int] = Field(
         None,
         ge=1,
         le=MAX_AUTONOMOUS_TURNS,

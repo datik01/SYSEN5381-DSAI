@@ -18,11 +18,11 @@ fi
 : "${CONNECT_SERVER:?Set CONNECT_SERVER in .env (Posit Connect URL)}"
 : "${CONNECT_API_KEY:?Set CONNECT_API_KEY in .env}"
 
-pip install -q rsconnect-python
+pip3 install -q rsconnect-python
 
 TITLE="${CONNECT_TITLE:-course-autonomous-agent}"
 
-rsconnect deploy fastapi \
+/Users/dannyatik/Library/Python/3.9/bin/rsconnect deploy fastapi \
   --title "$TITLE" \
   --server "$CONNECT_SERVER" \
   --api-key "$CONNECT_API_KEY" \

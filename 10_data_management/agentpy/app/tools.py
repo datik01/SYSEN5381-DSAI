@@ -7,7 +7,7 @@ import os
 import re
 from typing import Any
 
-from crewai_tools import SerperDevTool
+import requests
 
 from .guardrails import read_skill_file
 
@@ -192,7 +192,16 @@ def run_web_search(query: str) -> str:
         return "web_search error: empty query."
 
     try:
-        tool = SerperDevTool(n_results=5)
+        class LocalSerper:
+            def run(self, search_query):
+                headers = {'X-API-KEY': key, 'Content-Type': 'application/json'}
+                try:
+                    res = requests.post('https://google.serper.dev/search', headers=headers, json={'q': search_query})
+                    return res.json()
+                except Exception as e:
+                    return f"API crash: {e}"
+                    
+        tool = LocalSerper()
         raw = tool.run(search_query=q)
     except Exception as exc:  # noqa: BLE001 — tool output is user-facing text
         return f"web_search error: {exc}"

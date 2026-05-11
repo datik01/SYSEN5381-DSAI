@@ -1,3 +1,4 @@
+from typing import Optional
 # guardrails.py
 # Limits and safe paths for the course autonomous agent (used by loop.py)
 # Tim Fraser
@@ -48,7 +49,7 @@ def read_skill_file(basename: str) -> str:
     return full.read_text(encoding="utf-8")
 
 
-def clamp_turns(requested: int | None) -> int:
+def clamp_turns(requested: Optional[int]) -> int:
     """Clamp requested max turns to [1, MAX_AUTONOMOUS_TURNS]."""
     if requested is None:
         return MAX_AUTONOMOUS_TURNS
@@ -75,7 +76,7 @@ def min_completion_turns() -> int:
     return 1
 
 
-def task_size_ok(task: str, max_chars: int | None = None) -> bool:
+def task_size_ok(task: str, max_chars: Optional[int] = None) -> bool:
     """Optional coarse limit on prompt injection / huge payloads."""
     limit = max_chars if max_chars is not None else int(os.getenv("AGENT_MAX_TASK_CHARS", "8000"))
     return isinstance(task, str) and 0 < len(task) <= limit

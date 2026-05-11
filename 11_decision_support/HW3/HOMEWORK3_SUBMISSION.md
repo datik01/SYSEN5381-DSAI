@@ -41,12 +41,10 @@ One challenge was ensuring the LLM evaluator remained consistent in its scoring.
 
 ## 2. Git Repository Links
 
-* **Validation System Script (`report_validator.py`)**: [Link to repository/report_validator.py]
+* **Validation System Script (`report_validator.py`)**: https://github.com/datik01/SYSEN5381-DSAI/blob/main/11_decision_support/HW3/report_validator.py
 * **Validation Criteria Definition**: Defined within the script as a Pydantic `ValidationResult` schema and the `validate_report` system prompt.
-* **Example Validation Outputs**: [Link to validation_results.csv or sample_validation_output.txt]
-* **Validated Reports**: [Link to the /reports/ directory containing the 30 generated text files]
-
-*(Note: Replace the bracketed links with your actual GitHub URLs before submitting!)*
+* **Example Validation Outputs**: https://github.com/datik01/SYSEN5381-DSAI/blob/main/11_decision_support/HW3/validation_results.csv
+* **Validated Reports**: https://github.com/datik01/SYSEN5381-DSAI/tree/main/11_decision_support/HW3/reports
 
 ---
 

@@ -1,3 +1,4 @@
+from typing import Optional
 # loop.py
 # Multi-turn disaster situational brief loop against Ollama — tools, guardrails, AGENT.md
 # Tim Fraser
@@ -74,7 +75,7 @@ def _args_preview(args: dict[str, Any]) -> str:
         return _preview(str(args), 300)
 
 
-def _maybe_prefetch_web(task: str, search_left: list[int]) -> str | None:
+def _maybe_prefetch_web(task: str, search_left: list[int]) -> Optional[str]:
     """
     One automatic Serper query before the first model call (counts against search cap).
     Disabled when AGENT_PREFETCH_WEB_SEARCH is 0/false/no/off.
@@ -91,7 +92,7 @@ def _maybe_prefetch_web(task: str, search_left: list[int]) -> str | None:
     return run_web_search(q if q else "disaster emergency situational update")
 
 
-def _wrap_task_with_prefetch(task: str, prefetch: str | None) -> str:
+def _wrap_task_with_prefetch(task: str, prefetch: Optional[str]) -> str:
     if prefetch is None:
         return task
     return (
@@ -187,7 +188,7 @@ def _chat_once(
     api_key: str,
     model: str,
     messages: list[dict[str, Any]],
-    max_tokens: int | None,
+    max_tokens: Optional[int],
     tools: list[dict[str, Any]],
 ) -> dict[str, Any]:
     """Single non-streaming /api/chat call (optionally with tools)."""
@@ -221,9 +222,9 @@ def run_research_loop(
     ollama_host: str,
     ollama_api_key: str,
     model: str,
-    max_turns: int | None = None,
-    max_output_tokens: int | None = None,
-    existing_messages: list[dict[str, Any]] | None = None,
+    max_turns: Optional[int] = None,
+    max_output_tokens: Optional[int] = None,
+    existing_messages: Optional[list[dict[str, Any]]] = None,
     continue_thread: bool = False,
 ) -> dict[str, Any]:
     """
