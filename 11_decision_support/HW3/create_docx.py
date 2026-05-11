@@ -39,10 +39,8 @@ def md_to_docx(md_filepath, docx_filepath):
             p = doc.add_paragraph(style='List Bullet')
             add_formatted_text(p, line[2:])
         elif re.match(r'^\d+\.\s', line):
-            p = doc.add_paragraph(style='List Number')
-            # Remove "1. " etc.
-            text = re.sub(r'^\d+\.\s', '', line)
-            add_formatted_text(p, text)
+            p = doc.add_paragraph()
+            add_formatted_text(p, line)
         elif line.startswith("|") or line.startswith("---"):
             p = doc.add_paragraph()
             add_formatted_text(p, line)
